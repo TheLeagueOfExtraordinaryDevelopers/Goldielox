@@ -16,8 +16,12 @@
   var trackHeadEl = document.getElementById('trackHead');
   var durationEl = document.getElementById('duration');
   var progressSliderEl = document.getElementById('progress-slider');
+  var playPauseButton = document.getElementById('playPause');
+  var seeking = false;
 
   updateTrackHead = function() {
+    if (seeking) { return; }
+
     var timerange = audio.played;
 
     if (timerange) {
@@ -26,6 +30,9 @@
 
       var minutes = parseInt(currentTime / 60)
       var seconds = currentTime - minutes * 60
+
+      if (seconds < 10) // Add leading zero
+        seconds = "0" + seconds ;
 
       trackHeadEl.innerHTML = minutes + ":" + seconds;
       progressSliderEl.value = currentTime;
@@ -38,8 +45,31 @@
     audio.duration
   }
 
+  progressSliderEl.onmousedown = function () {
+    seeking = true;
+  }
+
+  progressSliderEl.onmouseup = function () {
+    seeking = false;
+  }
+
+  progressSliderEl.onchange = function () {
+    audio.currentTime = this.value
+  }
+
   pause = function () {
     audio.pause()
+    playPauseButton.innerHTML = "Play";
+    return false;
+  }
+
+  playPause = function () {
+    if (audio.paused) {
+      play();
+    } else {
+      pause();
+    }
+
   }
 
   audio.onloadedmetadata = function () {
@@ -48,11 +78,17 @@
     var minutes = parseInt(duration / 60)
     var seconds = duration - minutes * 60
 
+    if (seconds < 10) // Add leading zero
+      seconds = "0" + seconds
+
     durationEl.innerHTML = minutes + ":" + seconds;
+
+    progressSliderEl.value = 0;
     progressSliderEl.max = duration;
   }
 
   play = function(that){
+    playPauseButton.innerHTML = "Pause";
     if (that == null) {
       audio.play();
       return false;
@@ -62,7 +98,6 @@
 
     audio.play();
 
-    durationEl.innerHTML = audio.duration
 
     return false;
   };
