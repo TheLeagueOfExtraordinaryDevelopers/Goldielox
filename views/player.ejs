@@ -1,5 +1,6 @@
-
 <script>
+  var audio = document.createElement('audio');
+
   (function(){
     var audio = document.createElement('audio');
 
@@ -10,6 +11,61 @@
 
     //console.log("hello");
   })()
+
+
+  var trackHeadEl = document.getElementById('trackHead');
+  var durationEl = document.getElementById('duration');
+  var progressSliderEl = document.getElementById('progress-slider');
+
+  updateTrackHead = function() {
+    var timerange = audio.played;
+
+    if (timerange) {
+      /*trackHeadEl.innerHTML = parseInt(audio.played.end(0))*/
+      var currentTime = parseInt(audio.currentTime);
+
+      var minutes = parseInt(currentTime / 60)
+      var seconds = currentTime - minutes * 60
+
+      trackHeadEl.innerHTML = minutes + ":" + seconds;
+      progressSliderEl.value = currentTime;
+    }
+  }
+
+  setInterval(updateTrackHead, 1000);
+
+  duration = function () {
+    audio.duration
+  }
+
+  pause = function () {
+    audio.pause()
+  }
+
+  audio.onloadedmetadata = function () {
+    var duration = parseInt(audio.duration);
+
+    var minutes = parseInt(duration / 60)
+    var seconds = duration - minutes * 60
+
+    durationEl.innerHTML = minutes + ":" + seconds;
+    progressSliderEl.max = duration;
+  }
+
+  play = function(that){
+    if (that == null) {
+      audio.play();
+      return false;
+    }
+
+    audio.src = that.href
+
+    audio.play();
+
+    durationEl.innerHTML = audio.duration
+
+    return false;
+  };
 </script>
 
 

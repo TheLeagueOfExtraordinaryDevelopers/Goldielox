@@ -1,7 +1,26 @@
 extends layout
 
 block content
-  button#play Play
-  button#stop Stop
+  button#play(onclick="return play()") Play
+  button#pause(onclick="return pause()") Pause
+
+  br
+
+  |Duration:&nbsp;
+  span#duration 0
+
+  br
+
+  |Progress:&nbsp;
+  span#trackHead 0
+
+  br
+
+  input(type="range" style="width: 300px")#progress-slider
+
+  ul
+    each track in tracks
+      li
+        a(href=track.path onclick='return play(this)')= track.name
 
   include player.ejs
