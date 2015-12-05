@@ -16,6 +16,8 @@
   var trackHeadEl = document.getElementById('trackHead');
   var durationEl = document.getElementById('duration');
   var progressSliderEl = document.getElementById('progress-slider');
+  var volumeSliderEl = document.getElementById('volume-slider');
+  var trackNameEl = document.getElementById('trackName');
   var playPauseButton = document.getElementById('playPause');
   var seeking = false;
 
@@ -45,6 +47,7 @@
     audio.duration
   }
 
+
   progressSliderEl.onmousedown = function () {
     seeking = true;
   }
@@ -56,6 +59,12 @@
   progressSliderEl.onchange = function () {
     audio.currentTime = this.value
   }
+
+  volumeSliderEl.onchange = function () {
+    audio.volume = this.value
+  }
+
+  /*.ondrag*/
 
   pause = function () {
     audio.pause()
@@ -97,6 +106,8 @@
     audio.src = that.href
 
     audio.play();
+
+    trackNameEl.innerHTML = that.innerHTML;
 
 
     return false;
