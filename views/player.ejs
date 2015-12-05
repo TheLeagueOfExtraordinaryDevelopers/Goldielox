@@ -49,22 +49,36 @@
 
 
   progressSliderEl.onmousedown = function () {
-    seeking = true;
+    /*seeking = true;*/
   }
 
   progressSliderEl.onmouseup = function () {
-    seeking = false;
+    /*seeking = false;*/
   }
 
   progressSliderEl.onchange = function () {
     audio.currentTime = this.value
   }
 
-  volumeSliderEl.onchange = function () {
+
+  progressSliderEl.oninput = function () {
+    var value = this.value
+
+    var minutes = parseInt(value / 60)
+    var seconds = value - minutes * 60
+
+    if (seconds < 10) // Add leading zero
+      seconds = "0" + seconds ;
+
+    trackHeadEl.innerHTML = minutes + ":" + seconds;
+
+    audio.currentTime = this.value
+  }
+
+  volumeSliderEl.oninput = function () {
     audio.volume = this.value
   }
 
-  /*.ondrag*/
 
   pause = function () {
     audio.pause()
@@ -115,7 +129,7 @@
 </script>
 
 
-<div>
+<div style="display: none;">
   <label>Name:</label>
   <input type="text" ng-model="yourName" placeholder="Enter a name here">
   <hr>
