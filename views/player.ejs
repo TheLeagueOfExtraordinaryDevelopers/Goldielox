@@ -17,8 +17,10 @@
   var durationEl = document.getElementById('duration');
   var progressSliderEl = document.getElementById('progress-slider');
   var volumeSliderEl = document.getElementById('volume-slider');
-  var trackNameEl = document.getElementById('trackName');
+  var trackNameEl = document.getElementById('track-name');
+  var trackListEl = document.getElementById('track-list');
   var playPauseButton = document.getElementById('playPause');
+  currentTrackIndex = 1;
   var seeking = false;
 
   updateTrackHead = function() {
@@ -79,6 +81,14 @@
     audio.volume = this.value
   }
 
+  /*loadTrackByIndex = function(index) {*/
+    /*trackListEl.children[index-1];*/
+  /*}*/
+
+  playTrackByIndex = function(index) {
+    el = trackListEl.children[index-1].children[0];
+    play(el);
+  }
 
   pause = function () {
     audio.pause()
@@ -110,19 +120,30 @@
     progressSliderEl.max = duration;
   }
 
-  play = function(that){
+  playNextTrack = function () {
+    // Play if there is another track hopper.
+    console.log(currentTrackIndex);
+    if(trackListEl.children[currentTrackIndex]) {
+      playTrackByIndex(currentTrackIndex + 1);
+    }
+  }
+
+  audio.onended = function () { playNextTrack() }
+
+  play = function(el){
     playPauseButton.innerHTML = "Pause";
-    if (that == null) {
+    if (el == null) {
       audio.play();
       return false;
     }
 
-    audio.src = that.href
+    audio.src = el.href
 
     audio.play();
 
-    trackNameEl.innerHTML = that.innerHTML;
+    trackNameEl.innerHTML = el.innerHTML;
 
+    currentTrackIndex = parseInt(el.getAttribute('index'));
 
     return false;
   };

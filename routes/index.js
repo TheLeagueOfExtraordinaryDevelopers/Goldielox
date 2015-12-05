@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
   db.all("SELECT id, name, path FROM tracks", function(err, rows) {
     var tracks = rows;
 
-    res.render('index', { title: 'Express', tracks: tracks });
+    res.render('index', { title: 'Goldielox', tracks: tracks });
   })
 
 
