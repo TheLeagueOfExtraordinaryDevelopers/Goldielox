@@ -1,16 +1,18 @@
-body {
-  width: 1000px;
-  margin: 0 auto;
-  /*text-align: center;*/
+body { }
+
+#interface-container {
+  border: 1px solid #ccc;
+  width: 800px;
+  margin-top: 20px;
+  margin: 40px auto;
+  border-radius: 4px;
 }
 
 .albums-viewport {
-  border: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
   width: 800px;
   height: 300px;
   overflow: hidden;
-  margin-top: 40px;
-  border-radius: 4px;
 }
 
 .albums-scroll-track {
@@ -72,4 +74,24 @@ body {
 
 .back {
   transform: rotateY(180deg);
+}
+
+#volume-slider {
+  float: right;
+}
+
+#transport {
+  margin: 10px;
+}
+
+#progress {
+  display: inline-block;
+  position: relative;
+  left: 112px;
+}
+
+#progress #trackHead,
+#progress #duration {
+  position: relative;
+  top: -2px;
 }
