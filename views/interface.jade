@@ -4,7 +4,6 @@ html(ng-app)
     title= title
     link(rel='stylesheet', href='/stylesheets/interface.css')
     script(src="/javascripts/angular.min.js")
-    script(src="/javascripts/interface.js")
   body
     #interface-container
       include spindle.html.ejs
@@ -12,7 +11,7 @@ html(ng-app)
       h1#track-name
 
       #transport
-        button#playPause(onclick="return playPause()" style="width: 50px; position: absolute;") Play
+        button#playPause(onclick="return playPause()") Play
 
         #progress
           span#trackHead(style="width:50px; display: inline-block; text-align: right;") 0:00
@@ -27,3 +26,5 @@ html(ng-app)
         each track, index in tracks
           li
             a(href=track.path onclick='return play(this)' index=index+1)= track.name
+
+    script(src="/javascripts/interface.js")

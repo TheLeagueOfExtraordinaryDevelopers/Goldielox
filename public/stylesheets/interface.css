@@ -62,7 +62,9 @@ body { }
 }
 
 .album h1 {
-  font-weight: lighter;
+  font-weight: normal;
+  font-size: 27px;
+  color: black;
 }
 
 .album-overlay {
@@ -70,7 +72,12 @@ body { }
   font-family: sans-serif;
   font-weight: lighter;
 
-  text-shadow: -1px 1px 2px rgba(0, 0, 0, .4);
+  text-shadow: -1px 1px 5px rgba(255, 255, 255, 1);
+}
+
+.album a {
+  text-decoration: none;
+  color: black;
 }
 
 .album ol {
@@ -103,6 +110,7 @@ body { }
 
 #transport {
   margin: 10px;
+  position: relative;
 }
 
 #progress {
@@ -143,3 +151,15 @@ body { }
     font-family: sans-serif;
     font-weight: lighter;
   }
+
+#playPause {
+  border: 1px solid #ddd;
+  background: white;
+  width: 76px;
+  height: 76px;
+  border-radius: 38px;
+  position: absolute;
+  top: -31px;
+  left: 7px;
+  outline: none;
+}
