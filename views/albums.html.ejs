@@ -3,16 +3,65 @@
   body {
     width: 1000px;
     margin: 0 auto;
-    text-align: center;
+    /*text-align: center;*/
   }
+
+
+  .flipper-container {
+    height: 400px;
+    width: 400px;
+    display: block;
+    perspective: 1000px;
+    perspective-origin: 410px;
+    transform: scale(.75);
+  }
+
+  .flipper-container:hover .flipper {
+    transform: rotateY(135deg);
+  }
+
+
+  .flipper {
+    transform: rotateY(45deg);
+    transform-origin: 410px;
+
+    transition: 0.7s;
+    transform-style: preserve-3d;
+  }
+
+
   .album {
     width: 400px;
     height: 400px;
     background-color: pink;
     display: inline-block;
+
+    position: relative;
   }
+
+  .front, .back {
+    backface-visibility: hidden;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .front {
+    z-index: 2;
+
+    /* for firefox 31 */
+    transform: rotateY(0deg);
+  }
+
+  .back {
+    transform: rotateY(180deg);
+  }
+
 </style>
 
-
-<div class="album"></div>
-<div class="album"></div>
+<div class="flipper-container">
+  <div class="flipper">
+    <div class="album"></div>
+  </div>
+</div>
