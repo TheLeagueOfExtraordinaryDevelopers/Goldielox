@@ -2,6 +2,8 @@ extends layout
 
 block content
 
+  include albums.html.ejs
+
   h1#track-name
 
   button#playPause(onclick="return playPause()" style="width: 50px") Play
