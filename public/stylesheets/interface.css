@@ -1,0 +1,75 @@
+body {
+  width: 1000px;
+  margin: 0 auto;
+  /*text-align: center;*/
+}
+
+.albums-viewport {
+  border: 1px solid #ccc;
+  width: 800px;
+  height: 300px;
+  overflow: hidden;
+  margin-top: 40px;
+  border-radius: 4px;
+}
+
+.albums-scroll-track {
+  position: relative;
+  left: 150px;
+}
+
+.flipper-container {
+  height: 400px;
+  width: 10px;
+  display: inline-block;
+  perspective: 1000px;
+  perspective-origin: 410px;
+  transform: scale(.55) translateY(-93px);
+  /*border: 1px solid gray;*/
+}
+
+.flipper-container:hover .flipper {
+  transform: rotateY(135deg);
+}
+
+
+.flipper {
+  width: 400px;
+  height: 400px;
+  transform: rotateY(45deg);
+  transform-origin: right;
+
+  transition: 0.7s;
+  transform-style: preserve-3d;
+}
+
+
+.album {
+  width: 400px;
+  height: 400px;
+  background-color: pink;
+  display: inline-block;
+
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+
+.front, .back {
+  backface-visibility: hidden;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.front {
+  z-index: 2;
+
+  /* for firefox 31 */
+  transform: rotateY(0deg);
+}
+
+.back {
+  transform: rotateY(180deg);
+}

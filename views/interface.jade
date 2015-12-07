@@ -1,23 +1,27 @@
-extends layout
+doctype html
+html(ng-app)
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/interface.css')
+    script(src="/javascripts/angular.min.js")
+    script(src="/javascripts/interface.js")
+  body
+    include albums.html.ejs
 
-block content
+    h1#track-name
 
-  include albums.html.ejs
+    button#playPause(onclick="return playPause()" style="width: 50px") Play
+    &nbsp;
+    span#trackHead(style="width:50px; display: inline-block; text-align: right;") 0:00
+    &nbsp;
+    input(type="range" style="width: 300px" value=0)#progress-slider
+    &nbsp;
+    span#duration(style="width:50px; display: inline-block; text-align: left;") 0:00
 
-  h1#track-name
+    input(type="range" style="width: 77px" max=1 step=.01 value=1)#volume-slider
 
-  button#playPause(onclick="return playPause()" style="width: 50px") Play
-  &nbsp;
-  span#trackHead(style="width:50px; display: inline-block; text-align: right;") 0:00
-  &nbsp;
-  input(type="range" style="width: 300px" value=0)#progress-slider
-  &nbsp;
-  span#duration(style="width:50px; display: inline-block; text-align: left;") 0:00
-
-  input(type="range" style="width: 77px" max=1 step=.01 value=1)#volume-slider
-
-  ul#track-list(style="list-style: none; padding-left: 10px;")
-    each track, index in tracks
-      li
-        = index + 1 + '. '
-        a(href=track.path onclick='return play(this)' index=index+1)= track.name
+    ul#track-list(style="list-style: none; padding-left: 10px;")
+      each track, index in tracks
+        li
+          = index + 1 + '. '
+          a(href=track.path onclick='return play(this)' index=index+1)= track.name
