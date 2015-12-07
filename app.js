@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use('/library', express.static(path.join(__dirname, 'library')));
+app.use('/library', express.static(path.join(__dirname, 'library')));
 app.use('/media/music', express.static('/Users/blake/Music/iTunes/iTunes\ Media/Music'));
 
 app.use('/', routes);

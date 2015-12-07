@@ -57,6 +57,28 @@ body { }
   position: absolute;
   border: 1px solid #bbb;
   border-radius: 4px;
+  overflow: scroll;
+
+}
+
+.album h1 {
+  font-weight: lighter;
+}
+
+.album-overlay {
+  margin: 10px 30px;
+  font-family: sans-serif;
+  font-weight: lighter;
+
+  text-shadow: -1px 1px 2px rgba(0, 0, 0, .4);
+}
+
+.album ol {
+  padding-left: 30px;
+}
+
+.album li {
+  font-size: 20px;
 }
 
 .front, .back {
