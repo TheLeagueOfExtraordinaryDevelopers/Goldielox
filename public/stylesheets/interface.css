@@ -17,7 +17,7 @@ body { }
 
 .albums-scroll-track {
   position: relative;
-  left: 150px;
+  left: 168px;
 }
 
 .flipper-container {
@@ -27,11 +27,12 @@ body { }
   perspective: 1000px;
   perspective-origin: 410px;
   transform: scale(.55) translateY(-93px);
+  position: relative;
   /*border: 1px solid gray;*/
 }
 
 .flipper-container:hover .flipper {
-  transform: rotateY(135deg);
+  /*transform: rotateY(135deg);*/
 }
 
 
@@ -49,11 +50,12 @@ body { }
 .album {
   width: 400px;
   height: 400px;
-  background-color: pink;
+  /*background-color: pink;*/
+  background-color: white;
   display: inline-block;
 
   position: relative;
-  border: 1px solid gray;
+  border: 1px solid #bbb;
   border-radius: 4px;
 }
 
@@ -87,11 +89,38 @@ body { }
 #progress {
   display: inline-block;
   position: relative;
-  left: 112px;
+  left: 182px;
 }
 
 #progress #trackHead,
 #progress #duration {
   position: relative;
   top: -2px;
+  font-family: sans-serif;
+  font-weight: lighter;
 }
+
+#track-list {
+  width: 400px;
+  height: 340px;
+  border: 1px solid #ddd;
+  margin: 20px auto;
+  border-radius: 4px;
+  overflow: scroll;
+  padding: 0;
+  list-style: none;
+}
+
+  #track-list li {
+    padding: 10px;
+    margin-left: 0;
+    height: 20px;
+    border-bottom: 1px solid #eee
+  }
+
+  #track-list a {
+    text-decoration: none;
+    color: black;
+    font-family: sans-serif;
+    font-weight: lighter;
+  }

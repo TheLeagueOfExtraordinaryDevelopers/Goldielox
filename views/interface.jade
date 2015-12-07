@@ -12,7 +12,7 @@ html(ng-app)
       h1#track-name
 
       #transport
-        button#playPause(onclick="return playPause()" style="width: 50px") Play
+        button#playPause(onclick="return playPause()" style="width: 50px; position: absolute; display: none;") Play
 
         #progress
           span#trackHead(style="width:50px; display: inline-block; text-align: right;") 0:00
@@ -23,7 +23,7 @@ html(ng-app)
 
         input(type="range" style="width: 77px" max=1 step=.01 value=1)#volume-slider
 
-      ul#track-list(style="list-style: none; padding-left: 10px;")
+      ul#track-list
         each track, index in tracks
           li
             a(href=track.path onclick='return play(this)' index=index+1)= track.name
