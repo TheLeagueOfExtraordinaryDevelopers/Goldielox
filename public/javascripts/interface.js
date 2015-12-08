@@ -22,6 +22,9 @@ var playPauseButton = document.getElementById('playPause');
 var currentTrackIndex = 0;
 var seeking = false;
 
+var spindleEl = document.getElementById('spindle');
+
+
 updateTrackHead = function() {
   if (seeking) { return; }
 

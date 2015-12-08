@@ -18,7 +18,84 @@ body { }
 .albums-scroll-track {
   position: relative;
   left: 184px;
+  transition: 0.7s;
 }
+
+  #spindle:hover .albums-scroll-track {
+    left: 170px;
+  }
+
+
+  .flipper.flipper1 {
+    transform: rotateY(45deg) translateX(0px);
+  }
+
+  #spindle:hover .flipper1 {
+    transform: rotateY(38deg) translateX(-33px);
+  }
+
+
+  .flipper.flipper2 {
+    transform: rotateY(135deg) translateX(0px);
+  }
+
+  #spindle:hover .flipper2 {
+    transform: rotateY(45deg) translate(0);
+  }
+
+
+  .flipper.flipper3 {
+    transform: rotateY(142deg) translateX(-33px);
+  }
+
+  #spindle:hover .flipper3 {
+    transform: rotateY(135deg) translate(0px);
+  }
+
+
+  .flipper.flipper4 {
+    transform: rotateY(149deg) translateX(-66px);
+  }
+
+  #spindle:hover .flipper4 {
+    transform: rotateY(142deg) translateX(-33px);
+  }
+
+
+  .flipper.flipper5 {
+    transform: rotateY(156deg) translateX(-99px);
+  }
+
+  #spindle:hover .flipper5 {
+    transform: rotateY(149deg) translateX(-66px);
+  }
+
+
+  .flipper.flipper6 {
+    transform: rotateY(163deg) translateX(-132px);
+  }
+
+  #spindle:hover .flipper6 {
+    transform: rotateY(156deg) translateX(-99px);
+  }
+
+
+  .flipper.flipper7 {
+    transform: rotateY(170deg) translateX(-165px);
+  }
+
+  #spindle:hover .flipper7 {
+    transform: rotateY(163deg) translateX(-132px);
+  }
+
+
+  .flipper.flipper8 {
+    transform: rotateY(180deg) translateX(-200px);
+  }
+
+  #spindle:hover .flipper8 {
+    transform: rotateY(170deg) translateX(-165px);
+  }
 
 .flipper-container {
   height: 600px;
@@ -133,7 +210,7 @@ body { }
   border: 1px solid #ddd;
   margin: 20px auto;
   border-radius: 4px;
-  overflow: scroll;
+  overflow-y: scroll;
   padding: 0;
   list-style: none;
 }
