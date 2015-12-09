@@ -1,0 +1,243 @@
+body { }
+
+#interface-container {
+  border: 1px solid #ccc;
+  width: 1000px;
+  margin-top: 20px;
+  margin: 40px auto;
+  border-radius: 4px;
+}
+
+.albums-viewport {
+  border-bottom: 1px solid #ccc;
+  width: 1000px;
+  height: 500px;
+  overflow: hidden;
+}
+
+.albums-scroll-track {
+  position: relative;
+  left: 184px;
+  transition: 0.7s;
+}
+
+  #spindle:hover .albums-scroll-track {
+    left: 170px;
+  }
+
+
+  .flipper.flipper1 {
+    transform: rotateY(45deg) translateX(0px);
+  }
+
+  #spindle:hover .flipper1 {
+    transform: rotateY(38deg) translateX(-33px);
+  }
+
+
+  .flipper.flipper2 {
+    transform: rotateY(135deg) translateX(0px);
+  }
+
+  #spindle:hover .flipper2 {
+    transform: rotateY(45deg) translate(0);
+  }
+
+
+  .flipper.flipper3 {
+    transform: rotateY(142deg) translateX(-33px);
+  }
+
+  #spindle:hover .flipper3 {
+    transform: rotateY(135deg) translate(0px);
+  }
+
+
+  .flipper.flipper4 {
+    transform: rotateY(149deg) translateX(-66px);
+  }
+
+  #spindle:hover .flipper4 {
+    transform: rotateY(142deg) translateX(-33px);
+  }
+
+
+  .flipper.flipper5 {
+    transform: rotateY(156deg) translateX(-99px);
+  }
+
+  #spindle:hover .flipper5 {
+    transform: rotateY(149deg) translateX(-66px);
+  }
+
+
+  .flipper.flipper6 {
+    transform: rotateY(163deg) translateX(-132px);
+  }
+
+  #spindle:hover .flipper6 {
+    transform: rotateY(156deg) translateX(-99px);
+  }
+
+
+  .flipper.flipper7 {
+    transform: rotateY(170deg) translateX(-165px);
+  }
+
+  #spindle:hover .flipper7 {
+    transform: rotateY(163deg) translateX(-132px);
+  }
+
+
+  .flipper.flipper8 {
+    transform: rotateY(180deg) translateX(-200px);
+  }
+
+  #spindle:hover .flipper8 {
+    transform: rotateY(170deg) translateX(-165px);
+  }
+
+.flipper-container {
+  height: 600px;
+  width: 10px;
+  display: inline-block;
+  perspective: 1000px;
+  perspective-origin: 610px;
+  transform: scale(.50) translateY(-93px);
+  position: relative;
+  /*border: 1px solid gray;*/
+}
+
+.flipper-container:hover .flipper {
+  /*transform: rotateY(135deg);*/
+}
+
+
+.flipper {
+  width: 600px;
+  height: 600px;
+  transform: rotateY(45deg);
+  transform-origin: right;
+
+  transition: 0.7s;
+  transform-style: preserve-3d;
+}
+
+
+.album {
+  width: 600px;
+  height: 600px;
+  /*background-color: pink;*/
+  background-color: white;
+  display: inline-block;
+
+  position: absolute;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  overflow: hidden;
+  background-size: cover;
+}
+
+.album h1 {
+  font-weight: normal;
+  font-size: 27px;
+  color: black;
+}
+
+.album-overlay {
+  margin: 10px 70px;
+  font-family: sans-serif;
+  font-weight: lighter;
+
+  text-shadow: -1px 1px 5px rgba(255, 255, 255, 1);
+}
+
+.album a {
+  text-decoration: none;
+  color: black;
+}
+
+.album ol {
+  padding-left: 30px;
+}
+
+.album li {
+  font-size: 24px;
+}
+
+.front, .back {
+  backface-visibility: hidden;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.front {
+  z-index: 2;
+}
+
+.back {
+  transform: rotateY(180deg);
+}
+
+#volume-slider {
+  float: right;
+}
+
+#transport {
+  margin: 10px;
+  margin-top: 20px;
+  position: relative;
+}
+
+#progress {
+  display: inline-block;
+  position: relative;
+  left: 278px;
+}
+
+#progress #trackHead,
+#progress #duration {
+  position: relative;
+  top: -2px;
+  font-family: sans-serif;
+  font-weight: lighter;
+}
+
+#track-list {
+  width: 600px;
+  height: 340px;
+  border: 1px solid #ddd;
+  margin: 20px auto;
+  border-radius: 4px;
+  overflow-y: scroll;
+  padding: 0;
+  list-style: none;
+}
+
+  #track-list li {
+    padding: 10px;
+    margin-left: 0;
+    height: 20px;
+    border-bottom: 1px solid #eee
+  }
+
+  #track-list a {
+    text-decoration: none;
+    color: black;
+    font-family: sans-serif;
+    font-weight: lighter;
+  }
+
+#playPause {
+  border: 1px solid #ddd;
+  background: white;
+  width: 76px;
+  height: 76px;
+  border-radius: 38px;
+  position: absolute;
+  top: -31px;
+  left: 7px;
+  outline: none;
+}

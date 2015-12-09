@@ -26,18 +26,23 @@ app.directive('glSpindle', function() {
   };
 });
 
-
-app.directive('glProgress', function() {
+app.directive('glTransport', function() {
   return {
     replace: true,
-    templateUrl: 'templates/progress.html'
+    templateUrl: 'templates/transport.html'
   };
 });
-
 
 app.directive('glPlaylist', function() {
   return {
     replace: true,
     templateUrl: 'templates/playlist.html'
+  };
+});
+
+app.directive('glProgress', function() {
+  return {
+    replace: true,
+    templateUrl: 'templates/progress.html'
   };
 });
