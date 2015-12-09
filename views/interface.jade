@@ -1,9 +1,10 @@
 doctype html
-html(ng-app)
+html(ng-app="docsSimpleDirective")
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/interface.css')
     script(src="/javascripts/angular.min.js")
+    script(src="/javascripts/angular_app.js")
   body
     #interface-container
       include spindle.html.ejs
