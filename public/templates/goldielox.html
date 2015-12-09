@@ -1,19 +1,13 @@
 
 <div id="interface-container">
-  <spindle></spindle>
+  <div gl-spindle></div>
 
   <h1 id="track-name"></h1>
 
   <div id="transport">
     <button id="playPause" onclick="return playPause()"></button>
 
-    <div id="progress">
-      <span id="trackHead" style="width:50px; display: inline-block; text-align: right;">0:00</span>
-      &nbsp;
-      <input id="progress-slider" type="range" style="width: 300px" value=0></input>
-      &nbsp;
-      <span id="duration" style="width:50px; display: inline-block; text-align: left;">0:00</span>
-    </div>
+    <div gl-progress></div>
 
     <input id="volume-slider" type="range" style="width: 77px" max=1 step=.01 value=1></input>
   </div>

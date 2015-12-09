@@ -1,6 +1,7 @@
 var app = angular.module('goldielox', []);
 
 // Controllers //
+
 //app.controller('Controller', ['$scope', function($scope) {
   //$scope.customer = {
     //name: 'Naomi',
@@ -9,14 +10,23 @@ var app = angular.module('goldielox', []);
 //}]);
 
 // Directives //
-app.directive('spindle', function() {
+
+
+app.directive('goldielox', function() {
+  return {
+    templateUrl: 'templates/goldielox.html'
+  };
+});
+
+app.directive('glSpindle', function() {
   return {
     templateUrl: 'templates/spindle.html'
   };
 });
 
-app.directive('goldielox', function() {
+
+app.directive('glProgress', function() {
   return {
-    templateUrl: 'templates/goldielox.html'
+    templateUrl: 'templates/progress.html'
   };
 });
