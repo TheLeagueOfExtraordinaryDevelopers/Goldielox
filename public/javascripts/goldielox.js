@@ -1,17 +1,16 @@
 var app = angular.module('goldielox', []);
 
 // Controllers //
-app.controller('Controller', ['$scope', function($scope) {
-  $scope.customer = {
-    name: 'Naomi',
-    address: '1600 Amphitheatre'
-  };
-}]);
+//app.controller('Controller', ['$scope', function($scope) {
+  //$scope.customer = {
+    //name: 'Naomi',
+    //address: '1600 Amphitheatre'
+  //};
+//}]);
 
 // Directives //
-app.directive('myCustomer', function() {
+app.directive('spindle', function() {
   return {
-    //template: 'Name: {{customer.name}} Address: {{customer.address}}'
-    templateUrl: 'templates/my-customer.html'
+    templateUrl: 'templates/spindle.html'
   };
 });
