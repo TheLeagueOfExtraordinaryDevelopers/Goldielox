@@ -14,3 +14,9 @@ app.directive('spindle', function() {
     templateUrl: 'templates/spindle.html'
   };
 });
+
+app.directive('goldielox', function() {
+  return {
+    templateUrl: 'templates/goldielox.html'
+  };
+});

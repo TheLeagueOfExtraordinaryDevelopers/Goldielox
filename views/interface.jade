@@ -6,26 +6,5 @@ html(ng-app="goldielox")
     script(src="/javascripts/angular.min.js")
     script(src="/javascripts/goldielox.js")
   body
-    #interface-container
-      spindle
-
-      h1#track-name
-
-      #transport
-        button#playPause(onclick="return playPause()") Play
-
-        #progress
-          span#trackHead(style="width:50px; display: inline-block; text-align: right;") 0:00
-          &nbsp;
-          input(type="range" style="width: 300px" value=0)#progress-slider
-          &nbsp;
-          span#duration(style="width:50px; display: inline-block; text-align: left;") 0:00
-
-        input(type="range" style="width: 77px" max=1 step=.01 value=1)#volume-slider
-
-      ul#track-list
-        each track, index in tracks
-          li
-            a(href=track.path onclick='return play(this)' index=index+1)= track.name
-
+    goldielox
     script(src="/javascripts/interface.js")
