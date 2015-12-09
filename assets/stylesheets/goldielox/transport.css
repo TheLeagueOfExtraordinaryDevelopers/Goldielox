@@ -1,0 +1,35 @@
+#volume-slider {
+  float: right;
+}
+
+#transport {
+  margin: 10px;
+  margin-top: 20px;
+  position: relative;
+}
+
+#progress {
+  display: inline-block;
+  position: relative;
+  left: 278px;
+}
+
+#progress #trackHead,
+#progress #duration {
+  position: relative;
+  top: -2px;
+  font-family: sans-serif;
+  font-weight: lighter;
+}
+
+#playPause {
+  border: 1px solid #ddd;
+  background: white;
+  width: 76px;
+  height: 76px;
+  border-radius: 38px;
+  position: absolute;
+  top: -31px;
+  left: 7px;
+  outline: none;
+}
