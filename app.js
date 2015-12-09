@@ -5,6 +5,7 @@ var logger       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var sqlite3      = require('sqlite3').verbose();
+var assets       = require('connect-assets');
 
 var db = new sqlite3.Database('goldielox.db');
 
@@ -26,6 +27,13 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use(assets({
+  paths: [
+    'assets/stylesheets'
+	]
+}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/library', express.static(path.join(__dirname, 'library')));
 app.use('/media/music', express.static('/Users/blake/Music/iTunes/iTunes\ Media/Music'));
