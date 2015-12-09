@@ -14,12 +14,14 @@ var app = angular.module('goldielox', []);
 
 app.directive('goldielox', function() {
   return {
+    replace: true,
     templateUrl: 'templates/goldielox.html'
   };
 });
 
 app.directive('glSpindle', function() {
   return {
+    replace: true,
     templateUrl: 'templates/spindle.html'
   };
 });
@@ -27,6 +29,15 @@ app.directive('glSpindle', function() {
 
 app.directive('glProgress', function() {
   return {
+    replace: true,
     templateUrl: 'templates/progress.html'
+  };
+});
+
+
+app.directive('glPlaylist', function() {
+  return {
+    replace: true,
+    templateUrl: 'templates/playlist.html'
   };
 });
