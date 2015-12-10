@@ -2,12 +2,17 @@ var app = angular.module('goldielox', []);
 
 // Controllers //
 
-//app.controller('Controller', ['$scope', function($scope) {
-  //$scope.customer = {
-    //name: 'Naomi',
-    //address: '1600 Amphitheatre'
-  //};
-//}]);
+app.controller('PlayPauseButtonController', ['$scope', function($scope) {
+  $scope.label = "Play"
+
+  $scope.toggle = function (){
+    if ($scope.label == "Play") {
+      $scope.label = "Pause"
+    } else {
+      $scope.label = "Play"
+    }
+  }
+}]);
 
 // Directives //
 

@@ -22,7 +22,7 @@
   font-weight: lighter;
 }
 
-#playPause {
+#play-pause {
   border: 1px solid #ddd;
   background: white;
   width: 76px;
@@ -32,4 +32,5 @@
   top: -31px;
   left: 7px;
   outline: none;
+  cursor: pointer;
 }
