@@ -11,15 +11,13 @@ var playlist = [
 // Controllers //
 
 app.controller('PlayPauseButtonController', ['$scope', 'playback', function($scope, playback) {
-  $scope.label = "Play"
+  $scope.playback = playback
 
   $scope.toggle = function (){
-    if ($scope.label == "Play") {
-      playback.play();
-      $scope.label = "Pause";
-    } else {
+    if (playback.playing) {
       playback.pause();
-      $scope.label = "Play";
+    } else {
+      playback.play();
     }
   }
 }]);
@@ -34,7 +32,6 @@ app.controller('PlaylistController', ['$scope', 'playback', function($scope, pla
 }]);
 
 // Directives //
-
 
 app.directive('goldielox', function() {
   return {
@@ -78,21 +75,23 @@ app.directive('glProgress', function() {
 app.factory("playback", function () {
   var audio = document.createElement('audio');
 
-  audio.src = "/media/music/Unknown Artist/Unknown Album/Psalm 91 Sons of Korah.mp3"
-
   var playback = {
+    playing: false,
 
     load: function (path) {
       audio.src = path;
     },
 
     play: function () {
+      this.playing = true;
       audio.play();
    },
 
     pause: function () {
+      this.playing = false;
       audio.pause();
     }
+
   };
 
   return playback;

@@ -1,5 +1,5 @@
 <div id="transport">
-  <button id="play-pause" ng-controller="PlayPauseButtonController" ng-click="toggle()">{{label}}</button>
+  <button id="play-pause" ng-controller="PlayPauseButtonController" ng-click="toggle()">{{ playback.playing ? "Pause" : "Play" }}</button>
 
   <div gl-progress></div>
 
