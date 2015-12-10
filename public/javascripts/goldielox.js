@@ -31,6 +31,12 @@ app.controller('PlaylistController', ['$scope', 'playback', function($scope, pla
   }
 }]);
 
+app.controller('SpindleController', ['$scope', function($scope) {
+  $scope.addSong = function () {
+    playlist.push({ name: "Spirit Lead Me", path: "/media/music/Unknown Artist/Unknown Album/Spirit Lead Me.mp3" });
+  }
+}]);
+
 // Directives //
 
 app.directive('goldielox', function() {
@@ -43,6 +49,7 @@ app.directive('goldielox', function() {
 app.directive('glSpindle', function() {
   return {
     replace: true,
+    controller: 'SpindleController',
     templateUrl: 'templates/spindle.html'
   };
 });
