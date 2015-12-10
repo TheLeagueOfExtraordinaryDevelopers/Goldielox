@@ -2,14 +2,16 @@ var app = angular.module('goldielox', []);
 
 // Controllers //
 
-app.controller('PlayPauseButtonController', ['$scope', function($scope) {
+app.controller('PlayPauseButtonController', ['$scope', 'playback', function($scope, playback) {
   $scope.label = "Play"
 
   $scope.toggle = function (){
     if ($scope.label == "Play") {
-      $scope.label = "Pause"
+      playback.play();
+      $scope.label = "Pause";
     } else {
-      $scope.label = "Play"
+      playback.pause();
+      $scope.label = "Play";
     }
   }
 }]);
@@ -50,4 +52,24 @@ app.directive('glProgress', function() {
     replace: true,
     templateUrl: 'templates/progress.html'
   };
+});
+
+// Services //
+
+// Playback Service handles Playback
+app.factory("playback", function () {
+  var audio = document.createElement('audio');
+  audio.src = "/media/music/Unknown Artist/Unknown Album/Psalm 91 Sons of Korah.mp3"
+
+  var playback = {
+    play: function () {
+      audio.play();
+   },
+
+    pause: function () {
+      audio.pause();
+    }
+  };
+
+  return playback;
 });
