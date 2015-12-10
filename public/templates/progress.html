@@ -1,7 +1,7 @@
 <div id="progress">
-  <span id="trackHead" style="width:50px; display: inline-block; text-align: right;">{{playback.currentTime}}</span>
+  <span id="trackHead" style="width:50px; display: inline-block; text-align: right;">{{playback.fmtCurrentTime}} </span>
   &nbsp;
-  <input id="progress-slider" type="range" style="width: 300px" value=0></input>
+  <input id="progress-slider" type="range" style="width: 300px" ng-model="playback.currentTime" max="{{playback.duration}}"></input>
   &nbsp;
   <span id="duration" style="width:50px; display: inline-block; text-align: left;">{{playback.fmtDuration}}</span>
 </div>

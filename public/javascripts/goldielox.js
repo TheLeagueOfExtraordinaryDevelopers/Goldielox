@@ -133,11 +133,28 @@
 
       playback.fmtDuration = minutes + ":" + seconds;
 
-      //progressSliderEl.value = 0;
-      //progressSliderEl.max = duration;
+      playback.currentTime = audio.currentTime;
 
       $rootScope.$digest();
     });
+
+    updateCurrentTime = function() {
+      var currentTime = parseInt(audio.currentTime);
+
+      playback.currentTime = currentTime;
+
+      var minutes = parseInt(currentTime / 60)
+      var seconds = currentTime - minutes * 60
+
+      if (seconds < 10) // Add leading zero
+        seconds = "0" + seconds ;
+
+      playback.fmtCurrentTime = minutes + ":" + seconds;
+
+      $rootScope.$digest();
+    }
+
+    setInterval(updateCurrentTime, 1000);
 
     return playback;
   }]);
