@@ -125,7 +125,7 @@
   app.directive('glTransport', ['playback', function(playback) {
 
     function link(scope, $el, attrs) {
-      el = $el[0]
+      var el = $el[0];
 
       $volumeSliderEl = angular.element(el.querySelector('#volume-slider'))
 
@@ -152,13 +152,13 @@
     };
   });
 
-  app.directive('glProgress', function() {
+  app.directive('glProgress', ['playback', function(playback) {
     return {
       replace: true,
       controller: 'ProgressController',
       templateUrl: 'templates/progress.html'
     };
-  });
+  }]);
 
   app.directive('glFlipper', function() {
     return {
@@ -213,8 +213,16 @@
       audio.volume = value;
     });
 
+    playback.__defineSetter__('currentTime', function(value) {
+      audio.currentTime = value;
+    });
+
     playback.__defineGetter__('volume', function() {
       return audio.volume;
+    });
+
+    playback.__defineGetter__('currentTime', function() {
+      return audio.currentTime;
     });
 
     audio.addEventListener('loadedmetadata', function () {
@@ -230,15 +238,11 @@
 
       playback.fmtDuration = minutes + ":" + seconds;
 
-      playback.currentTime = audio.currentTime;
-
       $rootScope.$digest();
     });
 
     updateCurrentTime = function() {
-      var currentTime = parseInt(audio.currentTime);
-
-      playback.currentTime = currentTime;
+      var currentTime = parseInt(playback.currentTime);
 
       var minutes = parseInt(currentTime / 60)
       var seconds = currentTime - minutes * 60
