@@ -1,5 +1,5 @@
 (function () {
-  var app = angular.module('goldielox', []);
+  var app = window.app = angular.module('goldielox', []);
 
 
   var playlist = [
@@ -113,10 +113,22 @@
   });
 
   app.directive('glSpindle', function() {
+
+    function link (scope, element, attrs) {
+
+      // listen for arrow keys
+      scope.$on('spindle:flipLeft', function () {
+        console.log('Flip left');
+      });
+
+
+    }
+
     return {
       replace: true,
       controller: 'SpindleController',
-      templateUrl: 'templates/spindle.html'
+      templateUrl: 'templates/spindle.html',
+      link: link
     };
   });
 
@@ -141,7 +153,6 @@
       link: link
     };
   }]);
-
 
 
   app.directive('glPlaylist', function() {
@@ -261,15 +272,21 @@
   }]);
 
 
-  document.onkeydown = function(e){
-    if (e.keyCode == 37) { // left arrow
-      flippers.push({});
-      flippers.shift();
-    } else if (e.keyCode == 39) { // right arrow
-        flippers.unshift({});
-        flippers.pop();
+
+  app.run(['$rootScope', function($rootScope) {
+    document.onkeydown = function(e){
+      if (e.keyCode == 37) { // left arrow
+        $rootScope.$emit('spindle:flipLeft');
+        //flippers.push({});
+        //flippers.shift();
+      } else if (e.keyCode == 39) { // right arrow
+        $rootScope.$emit('spindle:flipRight');
+          //flippers.unshift({});
+          //flippers.pop();
+      }
+
     }
 
-  }
+  }]);
 
 })();
