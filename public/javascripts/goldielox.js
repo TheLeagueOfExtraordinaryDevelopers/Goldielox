@@ -120,12 +120,29 @@
     };
   });
 
-  app.directive('glTransport', function() {
+
+
+  app.directive('glTransport', ['playback', function(playback) {
+
+    function link(scope, $el, attrs) {
+      el = $el[0]
+
+      $volumeSliderEl = angular.element(el.querySelector('#volume-slider'))
+
+      $volumeSliderEl.on('input', function () {
+        playback.volume = this.value
+      });
+
+    }
+
     return {
       replace: true,
-      templateUrl: 'templates/transport.html'
+      templateUrl: 'templates/transport.html',
+      link: link
     };
-  });
+  }]);
+
+
 
   app.directive('glPlaylist', function() {
     return {
@@ -191,6 +208,14 @@
       }
 
     };
+
+    playback.__defineSetter__('volume', function(value) {
+      audio.volume = value;
+    });
+
+    playback.__defineGetter__('volume', function() {
+      return audio.volume;
+    });
 
     audio.addEventListener('loadedmetadata', function () {
       var duration = parseInt(audio.duration);
