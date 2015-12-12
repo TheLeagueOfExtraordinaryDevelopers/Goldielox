@@ -3,16 +3,42 @@
 
 
   var playlist = [
-    { name: "Kim Walker Smith - 10,000 Reasons (Bless The Lord)", path: "/media/music/Unknown Artist/Unknown Album/Kim Walker Smith - 10,000 Reasons (Bless The Lord).mp3" },
-    { name: "Psalm 91 Sons of Korah", path: "/media/music/Unknown Artist/Unknown Album/Psalm 91 Sons of Korah.mp3" }
+    { title: "Kim Walker Smith - 10,000 Reasons (Bless The Lord)", path: "/media/music/Unknown Artist/Unknown Album/Kim Walker Smith - 10,000 Reasons (Bless The Lord).mp3" },
+    { title: "Psalm 91 Sons of Korah", path: "/media/music/Unknown Artist/Unknown Album/Psalm 91 Sons of Korah.mp3" }
   ]
 
   var albums = [
     {
-      name: "",
-      cover_path: "",
-      tracks: []
+      title: "When Christmas Comes",
+      tracks: [
+        { title: "Tell Me the Story of Jesus" },
+        { title: "Silent Night" },
+        { title: "Angels We Have Heard On High" },
+        { title: "It's Beginning to Look a Lot Like Christmas" },
+        { title: "I'll Be Home for Christmas" },
+        { title: "The First Noel" },
+        { title: "Away in a Manger" },
+        { title: "Have Yourself a Merry Little Christmas" },
+        { title: "Let it Snow" },
+        { title: "O Come, O Come, Emmanuel" },
+        { title: "O Come All Ye Faithful" },
+        { title: "O Holy Night" },
+        { title: "Carol of the Bells" },
+        { title: "Winter Wonderland" },
+        { title: "Rudolph the Red-Nosed Reindeer" },
+        { title: "White Christmas" },
+        { title: "The Christmas Song" }
+      ],
+      cover_path: "/library/When Christmas Comes/cover.png"
+    },
+    {
+      title: "Spirit Lead Me",
+      tracks: [
+        { title: "Spirit Lead Me", path: "/media/music/Unknown Artist/Unknown Album/Spirit Lead Me.mp3" }
+      ],
+      cover_path: "/library/Spirit Lead Me/cover.jpg"
     }
+
   ];
 
   var flippers = window.flippers = [
@@ -29,6 +55,10 @@
     {},
     {}
   ];
+
+  // Loading albums for testing.
+  flippers[5].sideTwo = albums[0];
+  flippers[6].sideOne = albums[1];
 
 
   // Controllers //
@@ -60,6 +90,17 @@
 
   app.controller('ProgressController', ['$scope', 'playback', function($scope, playback) {
     $scope.playback = playback;
+  }]);
+
+  app.controller('FlipperController', ['$scope', function($scope) {
+  }]);
+
+  app.controller('AlbumController', ['$scope', function($scope) {
+    $scope.addSong = function (track) {
+      // Example code
+      playlist.push(track);
+      //playlist.push({ title: track.title, path: "/media/music/Unknown Artist/Unknown Album/Spirit Lead Me.mp3" });
+    }
   }]);
 
   // Directives //
@@ -105,7 +146,19 @@
   app.directive('glFlipper', function() {
     return {
       replace: true,
+      controller: 'FlipperController',
       templateUrl: 'templates/flipper.html'
+    };
+  });
+
+  app.directive('glAlbum', function() {
+    return {
+      replace: true,
+      controller: 'AlbumController',
+      templateUrl: 'templates/album.html',
+      scope: {
+          album: '='
+      }
     };
   });
 

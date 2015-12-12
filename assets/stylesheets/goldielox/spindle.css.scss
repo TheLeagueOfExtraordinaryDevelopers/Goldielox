@@ -161,10 +161,18 @@
   text-shadow: -1px 1px 5px rgba(255, 255, 255, 1);
 }
 
-.album a {
-  text-decoration: none;
-  color: black;
+.album {
+
+  a {
+    text-decoration: none;
+    color: black;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
+
 
 .album ol {
   padding-left: 30px;
