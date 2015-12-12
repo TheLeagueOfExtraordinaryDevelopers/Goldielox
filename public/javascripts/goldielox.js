@@ -152,13 +152,13 @@
     };
   });
 
-  app.directive('glProgress', ['playback', function(playback) {
+  app.directive('glProgress', function(playback) {
     return {
       replace: true,
       controller: 'ProgressController',
       templateUrl: 'templates/progress.html'
     };
-  }]);
+  });
 
   app.directive('glFlipper', function() {
     return {
