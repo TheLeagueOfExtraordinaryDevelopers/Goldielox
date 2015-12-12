@@ -15,6 +15,21 @@
     }
   ];
 
+  var flippers = window.flippers = [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+  ];
+
 
   // Controllers //
 
@@ -40,10 +55,7 @@
   }]);
 
   app.controller('SpindleController', ['$scope', function($scope) {
-    $scope.addSong = function () {
-      // Example code
-      playlist.push({ name: "Spirit Lead Me", path: "/media/music/Unknown Artist/Unknown Album/Spirit Lead Me.mp3" });
-    }
+    $scope.flippers = flippers
   }]);
 
   app.controller('ProgressController', ['$scope', 'playback', function($scope, playback) {
@@ -87,6 +99,13 @@
       replace: true,
       controller: 'ProgressController',
       templateUrl: 'templates/progress.html'
+    };
+  });
+
+  app.directive('glFlipper', function() {
+    return {
+      replace: true,
+      templateUrl: 'templates/flipper.html'
     };
   });
 
