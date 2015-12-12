@@ -231,4 +231,14 @@
     return playback;
   }]);
 
+
+  document.onkeydown = function(e){
+    if (e.keyCode == 37) { // left arrow
+      flippers.shift();
+    } else if (e.keyCode == 39) { // right arrow
+        flippers.unshift({});
+    }
+
+  }
+
 })();
