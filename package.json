@@ -14,6 +14,7 @@
     "ejs": "^2.3.4",
     "express": "~4.13.1",
     "jade": "~1.11.0",
+    "jsave": "^0.5.7",
     "morgan": "~1.6.1",
     "node-sass": "^3.4.2",
     "serve-favicon": "~2.3.0",

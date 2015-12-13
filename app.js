@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var sqlite3      = require('sqlite3').verbose();
 var assets       = require('connect-assets');
+var jsave        = require('jsave');
 
 var db = new sqlite3.Database('goldielox.db');
 
@@ -31,7 +32,7 @@ app.use(cookieParser());
 app.use(assets({
   paths: [
     'assets/stylesheets'
-	]
+  ]
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
