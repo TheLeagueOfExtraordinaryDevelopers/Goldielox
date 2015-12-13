@@ -96,6 +96,8 @@
 
     function link ($scope, element, attrs) {
 
+      var $albumsScrollTrackEl = element.find(".albums-scroll-track")
+
       function onkeydown(e) {
         if (e.keyCode == 37) { // left arrow
           $scope.$emit('spindle:flipLeft');
@@ -108,7 +110,6 @@
 
       function loadSpindle() {
         // TODO: Load the Spindle Here.
-        var albumsScrollTrackEl = element.find(".albums-scroll-track")
 
 
         _.each(spindle.flippers, function(flipper) {
@@ -124,9 +125,7 @@
 
           var el = $compile(flipperEl)(flipperScope);
 
-          albumsScrollTrackEl.append(flipperEl);
-
-          console.log(flipper);
+          $albumsScrollTrackEl.append(flipperEl);
         });
       }
 
@@ -136,11 +135,15 @@
 
       // listen for arrow keys
       $scope.$on('spindle:flipLeft', function () {
+        var el = $albumsScrollTrackEl.children().first().detach()
+        $albumsScrollTrackEl.append(el);
         //flippers.push({});
         //flippers.shift();
       });
 
       $scope.$on('spindle:flipRight', function () {
+        var el = $albumsScrollTrackEl.children().last().detach()
+        $albumsScrollTrackEl.prepend(el);
         //flippers.unshift({});
         //flippers.pop();
       });
