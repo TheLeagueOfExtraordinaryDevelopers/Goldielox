@@ -64,9 +64,8 @@
 
     // Load playlist data
     jQuery.getJSON('/playlist.json', function(data) {
-      $scope.playlist = data
+      $scope.playlist = playlist = data;
     });
-
 
   }]);
 
@@ -195,10 +194,16 @@
 
 
   app.directive('glPlaylist', function() {
+
+    function link($scope, $el, attrs) {
+
+    }
+
     return {
       replace: true,
       controller: 'PlaylistController',
-      templateUrl: 'templates/playlist.html'
+      templateUrl: 'templates/playlist.html',
+      link: link
     };
   });
 
