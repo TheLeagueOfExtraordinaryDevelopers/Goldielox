@@ -112,15 +112,36 @@
     };
   });
 
-  app.directive('glSpindle', function() {
+  app.directive('glSpindle', ['$document', function($document) {
 
-    function link (scope, element, attrs) {
+    function link ($scope, element, attrs) {
+
+      function onkeydown(e) {
+        if (e.keyCode == 37) { // left arrow
+          $scope.$emit('spindle:flipLeft');
+          //flippers.push({});
+          //flippers.shift();
+        } else if (e.keyCode == 39) { // right arrow
+          $scope.$emit('spindle:flipRight');
+          //flippers.unshift({});
+          //flippers.pop();
+        }
+      }
+
+      $document.on('keydown', onkeydown);
 
       // listen for arrow keys
-      scope.$on('spindle:flipLeft', function () {
+      $scope.$on('spindle:flipLeft', function () {
         console.log('Flip left');
       });
 
+      $scope.$on('spindle:flipRight', function () {
+        console.log('Flip right');
+      });
+
+      element.on('$destroy', function() {
+        $document.off('keydown', onkeydown);
+      });
 
     }
 
@@ -130,7 +151,7 @@
       templateUrl: 'templates/spindle.html',
       link: link
     };
-  });
+  }]);
 
 
 
@@ -271,22 +292,5 @@
     return playback;
   }]);
 
-
-
-  app.run(['$rootScope', function($rootScope) {
-    document.onkeydown = function(e){
-      if (e.keyCode == 37) { // left arrow
-        $rootScope.$emit('spindle:flipLeft');
-        //flippers.push({});
-        //flippers.shift();
-      } else if (e.keyCode == 39) { // right arrow
-        $rootScope.$emit('spindle:flipRight');
-          //flippers.unshift({});
-          //flippers.pop();
-      }
-
-    }
-
-  }]);
 
 })();
