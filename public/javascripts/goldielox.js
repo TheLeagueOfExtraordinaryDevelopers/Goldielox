@@ -30,7 +30,8 @@
       tracks: [
         { title: "Spirit Lead Me", path: "/media/music/Unknown Artist/Unknown Album/Spirit Lead Me.mp3" },
         { title: "Kim Walker Smith - 10,000 Reasons (Bless The Lord)", path: "/media/music/Unknown Artist/Unknown Album/Kim Walker Smith - 10,000 Reasons (Bless The Lord).mp3" },
-        { title: "Psalm 91 Sons of Korah", path: "/media/music/Unknown Artist/Unknown Album/Psalm 91 Sons of Korah.mp3" }
+        { title: "Psalm 91 Sons of Korah", path: "/media/music/Unknown Artist/Unknown Album/Psalm 91 Sons of Korah.mp3" },
+        { title: "You are Good", path: "/media/music/Unknown%20Artist/Unknown%20Album/YOU%20ARE%20GOOD%20Lakewood%20Church%20Worship%20Video%20w-lyrics.mp3" }
       ],
       cover_path: "/library/Spirit Lead Me/cover.jpg"
     }
