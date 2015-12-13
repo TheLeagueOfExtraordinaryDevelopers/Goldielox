@@ -57,8 +57,9 @@
     $scope.playlist = playlist
 
     $scope.play = function (track, el) {
-      playback.load(track.path)
-      playback.play()
+      //playback.load(track.path)
+      //playback.play()
+      playlist.play(track);
     }
 
     $scope.remove = function (track) {
@@ -292,19 +293,74 @@
     return spindle;
   });
 
-  app.factory("playlist", function() {
+  app.factory("playlist", ['playback', function(playback) {
+
+    playback.bind('ended', function () {
+      // Play next track
+      playlist.playNextSong();
+    });
+
     var playlist = {
+      currentTrack: null,
+      loop: true,
       tracks: [],
 
       remove: function(track) {
         // Find by name
         var index = this.tracks.indexOf(track);
         this.tracks.splice(index, 1);
+      },
+
+      play: function (track) {
+
+        // Clear current from cssClass for tracks;
+        _.each(this.tracks, function (track) {
+          track.cssClass = null;
+        })
+
+        var index = this.tracks.indexOf(track);
+        this.currentTrack = track;
+
+        track.cssClass = 'current'
+
+        playback.load(track.path)
+        playback.play()
+
+      },
+
+      playNextSong: function() {
+        var index = this.tracks.indexOf(this.currentTrack);
+
+        this.currentTrack = this.tracks[index+1];
+
+        // Clear current from cssClass for tracks;
+        _.each(this.tracks, function (track) {
+          track.cssClass = null;
+        })
+
+        if (this.currentTrack) {
+          this.currentTrack.cssClass = 'current'
+          playback.load(this.currentTrack.path)
+          playback.play()
+        } else {
+          if (this.loop) { // Start back at beginning if looping
+            this.currentTrack = this.tracks[0];
+
+            this.currentTrack.cssClass = 'current'
+            playback.load(this.currentTrack.path)
+            playback.play()
+          }
+        }
+
       }
+
+
+
+
     };
 
     return playlist;
-  });
+  }]);
 
 
   // Playback Service handles Playback
@@ -376,6 +432,10 @@
       $rootScope.$digest();
     });
 
+    audio.addEventListener('ended', function () {
+      playback.trigger('ended'); // relay
+    });
+
     updateCurrentTime = function() {
       var currentTime = parseInt(playback.currentTime);
 
@@ -389,6 +449,8 @@
 
       $rootScope.$digest();
     }
+
+    _.extend(playback, Backbone.Events);
 
     setInterval(updateCurrentTime, 1000);
 

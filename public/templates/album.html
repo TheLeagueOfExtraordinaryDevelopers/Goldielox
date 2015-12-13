@@ -3,7 +3,7 @@
     <h1 class="album-title">{{album.title}}</h1>
     <ol>
       <li ng-repeat="track in album.tracks">
-        <a href="#" ng-click="addSong(track)">{{track.title}}</a>
+        <a ng-click="addSong(track)">{{track.title}}</a>
       </li>
     </ol>
   </div>

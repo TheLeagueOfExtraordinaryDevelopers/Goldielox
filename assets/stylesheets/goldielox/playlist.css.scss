@@ -26,6 +26,16 @@
       float: right;
       color: #ccc;
     }
+
+    &:hover {
+      .close {
+        color: #ccc;
+        &:hover {
+          color: #aaa;
+        }
+      }
+    }
+
   }
 
 }
