@@ -7,9 +7,8 @@
   overflow-y: scroll;
   padding: 0;
   list-style: none;
-}
 
-  #playlist li {
+  li {
     padding: 10px;
     margin-left: 0;
     height: 20px;
@@ -17,4 +16,16 @@
     font-family: sans-serif;
     font-weight: lighter;
     cursor: pointer;
+
+
+    &.current {
+      border-left: 3px solid #ccc;
+    }
+
+    .close {
+      float: right;
+      color: #ccc;
+    }
   }
+
+}

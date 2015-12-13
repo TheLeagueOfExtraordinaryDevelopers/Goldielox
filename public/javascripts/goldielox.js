@@ -31,7 +31,8 @@
         { title: "Spirit Lead Me", path: "/media/music/Unknown Artist/Unknown Album/Spirit Lead Me.mp3" },
         { title: "Kim Walker Smith - 10,000 Reasons (Bless The Lord)", path: "/media/music/Unknown Artist/Unknown Album/Kim Walker Smith - 10,000 Reasons (Bless The Lord).mp3" },
         { title: "Psalm 91 Sons of Korah", path: "/media/music/Unknown Artist/Unknown Album/Psalm 91 Sons of Korah.mp3" },
-        { title: "You are Good", path: "/media/music/Unknown%20Artist/Unknown%20Album/YOU%20ARE%20GOOD%20Lakewood%20Church%20Worship%20Video%20w-lyrics.mp3" }
+        { title: "You are Good", path: "/media/music/Unknown%20Artist/Unknown%20Album/YOU%20ARE%20GOOD%20Lakewood%20Church%20Worship%20Video%20w-lyrics.mp3" },
+        { title: "This is my Desire", path: "/media/music/Unknown%20Artist/Unknown%20Album/This%20is%20my%20desire%20-%20Michael%20W%20Smith.mp3" }
       ],
       cover_path: "/library/Spirit Lead Me/cover.jpg"
     }
@@ -55,9 +56,13 @@
   app.controller('PlaylistController', ['$scope', 'playback', 'playlist', function($scope, playback, playlist) {
     $scope.playlist = playlist
 
-    $scope.play = function (track) {
+    $scope.play = function (track, el) {
       playback.load(track.path)
       playback.play()
+    }
+
+    $scope.remove = function (track) {
+      playlist.remove(track);
     }
 
     // Load playlist data
@@ -289,7 +294,13 @@
 
   app.factory("playlist", function() {
     var playlist = {
-      tracks: []
+      tracks: [],
+
+      remove: function(track) {
+        // Find by name
+        var index = this.tracks.indexOf(track);
+        this.tracks.splice(index, 1);
+      }
     };
 
     return playlist;

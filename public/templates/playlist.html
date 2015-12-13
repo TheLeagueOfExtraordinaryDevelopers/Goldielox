@@ -1,3 +1,5 @@
 <ul id="playlist">
-  <li ng-repeat="track in playlist.tracks" ng-click="play(track)">{{track.title}}</li>
+  <li ng-repeat="track in playlist.tracks"
+    ng-click="play(track)">{{track.title}}<span class="close"
+  ng-click="remove(track)">x</span></li>
 </ul>
