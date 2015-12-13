@@ -119,12 +119,8 @@
       function onkeydown(e) {
         if (e.keyCode == 37) { // left arrow
           $scope.$emit('spindle:flipLeft');
-          //flippers.push({});
-          //flippers.shift();
         } else if (e.keyCode == 39) { // right arrow
           $scope.$emit('spindle:flipRight');
-          //flippers.unshift({});
-          //flippers.pop();
         }
       }
 
@@ -132,11 +128,13 @@
 
       // listen for arrow keys
       $scope.$on('spindle:flipLeft', function () {
-        console.log('Flip left');
+        flippers.push({});
+        flippers.shift();
       });
 
       $scope.$on('spindle:flipRight', function () {
-        console.log('Flip right');
+        flippers.unshift({});
+        flippers.pop();
       });
 
       element.on('$destroy', function() {
