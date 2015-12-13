@@ -193,9 +193,23 @@
   }]);
 
 
-  app.directive('glPlaylist', function() {
+  app.directive('glPlaylist', function($document) {
 
     function link($scope, $el, attrs) {
+
+      function onkeydown(e) {
+        if (e.ctrlKey == true && e.keyCode == 83) { // ctrl-s
+          console.log(playlist);
+          $.ajax({
+            type: "PUT",
+            url: "/playlist.json",
+            contentType: 'application/json',
+            data: JSON.stringify(playlist)
+          });
+        }
+      }
+
+      $document.on('keydown', onkeydown);
 
     }
 
@@ -356,7 +370,7 @@
     return playback;
   }]);
 
-  app.run(['spindle', function(spindle) {
+  app.run(['spindle', '$document', function(spindle, $document) {
     spindle.load(albums);
   }]);
 
