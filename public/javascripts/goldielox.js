@@ -1,11 +1,6 @@
 (function () {
   var app = window.app = angular.module('goldielox', []);
 
-  var playlist = [
-    { title: "Kim Walker Smith - 10,000 Reasons (Bless The Lord)", path: "/media/music/Unknown Artist/Unknown Album/Kim Walker Smith - 10,000 Reasons (Bless The Lord).mp3" },
-    { title: "Psalm 91 Sons of Korah", path: "/media/music/Unknown Artist/Unknown Album/Psalm 91 Sons of Korah.mp3" }
-  ]
-
   var albums = [
     {
       title: "When Christmas Comes",
@@ -31,9 +26,11 @@
       cover_path: "/library/When Christmas Comes/cover.png"
     },
     {
-      title: "Spirit Lead Me",
+      title: "Gospel",
       tracks: [
-        { title: "Spirit Lead Me", path: "/media/music/Unknown Artist/Unknown Album/Spirit Lead Me.mp3" }
+        { title: "Spirit Lead Me", path: "/media/music/Unknown Artist/Unknown Album/Spirit Lead Me.mp3" },
+        { title: "Kim Walker Smith - 10,000 Reasons (Bless The Lord)", path: "/media/music/Unknown Artist/Unknown Album/Kim Walker Smith - 10,000 Reasons (Bless The Lord).mp3" },
+        { title: "Psalm 91 Sons of Korah", path: "/media/music/Unknown Artist/Unknown Album/Psalm 91 Sons of Korah.mp3" }
       ],
       cover_path: "/library/Spirit Lead Me/cover.jpg"
     }
@@ -54,8 +51,8 @@
     }
   }]);
 
-  app.controller('PlaylistController', ['$scope', 'playback', function($scope, playback) {
-    //$scope.playlist = playlist;
+  app.controller('PlaylistController', ['$scope', 'playback', 'playlist', function($scope, playback, playlist) {
+    $scope.playlist = playlist
 
     $scope.play = function (track) {
       playback.load(track.path)
@@ -64,7 +61,7 @@
 
     // Load playlist data
     jQuery.getJSON('/playlist.json', function(data) {
-      $scope.playlist = playlist = data;
+      playlist.tracks = data;
     });
 
   }]);
@@ -80,10 +77,10 @@
   app.controller('FlipperController', ['$scope', function($scope) {
   }]);
 
-  app.controller('AlbumController', ['$scope', function($scope) {
+  app.controller('AlbumController', ['$scope', 'playlist', function($scope, playlist) {
     $scope.addSong = function (track) {
       // Example code
-      playlist.push(track);
+      playlist.tracks.push(track);
       //playlist.push({ title: track.title, path: "/media/music/Unknown Artist/Unknown Album/Spirit Lead Me.mp3" });
     }
   }]);
@@ -193,18 +190,17 @@
   }]);
 
 
-  app.directive('glPlaylist', function($document) {
+  app.directive('glPlaylist', ['$document', 'playlist', function($document, playlist) {
 
     function link($scope, $el, attrs) {
 
       function onkeydown(e) {
         if (e.ctrlKey == true && e.keyCode == 83) { // ctrl-s
-          console.log(playlist);
           $.ajax({
             type: "PUT",
             url: "/playlist.json",
             contentType: 'application/json',
-            data: JSON.stringify(playlist)
+            data: JSON.stringify(playlist.tracks)
           });
         }
       }
@@ -219,7 +215,7 @@
       templateUrl: 'templates/playlist.html',
       link: link
     };
-  });
+  }]);
 
   app.directive('glProgress', function(playback) {
     return {
@@ -288,6 +284,14 @@
     _.extend(spindle, Backbone.Events);
 
     return spindle;
+  });
+
+  app.factory("playlist", function() {
+    var playlist = {
+      tracks: []
+    };
+
+    return playlist;
   });
 
 
