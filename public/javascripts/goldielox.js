@@ -55,12 +55,19 @@
   }]);
 
   app.controller('PlaylistController', ['$scope', 'playback', function($scope, playback) {
-    $scope.playlist = playlist;
+    //$scope.playlist = playlist;
 
     $scope.play = function (track) {
       playback.load(track.path)
       playback.play()
     }
+
+    // Load playlist data
+    jQuery.getJSON('/playlist.json', function(data) {
+      $scope.playlist = data
+    });
+
+
   }]);
 
   app.controller('SpindleController', ['$scope', function($scope) {
@@ -347,5 +354,6 @@
   app.run(['spindle', function(spindle) {
     spindle.load(albums);
   }]);
+
 
 })();

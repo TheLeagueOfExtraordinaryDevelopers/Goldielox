@@ -55,10 +55,8 @@ router.get('/playlist.json', function(req, res, next) {
   var json = JSON.stringify(playlist);
   res.end(json);
 
-
   //var playlist = jsave.load('playlist.json');
   //res.send(playlist)
-
 
 });
 
