@@ -65,12 +65,31 @@
   .flipper {
     transform: rotateY(45deg) translateX(0px);
   }
+
+  &:hover {
+    /*transform: scale(.8) translateY(-62px) translateX(-227px);*/
+    transform: scale(.8) translateY(-62px) translateX(0px);
+    .flipper {
+      transform: rotateY(0deg) translateX(0px);
+      /*transform: scale(1.5) translateX(471px) rotateY(135deg);*/
+    }
+  }
 }
 
 .flipper-container:nth-child(7) {
   z-index: 7;
   .flipper {
     transform: rotateY(135deg) translateX(0px);
+  }
+
+  &:hover {
+    z-index: 8;
+    /*transform: scale(.8) translateY(-62px) translateX(-227px);*/
+    transform: scale(.8) translateY(-62px) translateX(-400px);
+    .flipper {
+      transform: rotateY(180deg) translateX(0px);
+      /*transform: scale(1.5) translateX(471px) rotateY(135deg);*/
+    }
   }
 }
 
