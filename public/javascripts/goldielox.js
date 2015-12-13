@@ -41,26 +41,6 @@
 
   ];
 
-  var flippers = window.flippers = [
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {}
-  ];
-
-  // Loading albums for testing.
-  flippers[5].sideTwo = albums[0];
-  flippers[6].sideOne = albums[1];
-
-
   // Controllers //
 
   app.controller('PlayPauseButtonController', ['$scope', 'playback', function($scope, playback) {
@@ -85,7 +65,7 @@
   }]);
 
   app.controller('SpindleController', ['$scope', function($scope) {
-    $scope.flippers = flippers
+    //$scope.flippers = flippers
   }]);
 
   app.controller('ProgressController', ['$scope', 'playback', function($scope, playback) {
@@ -112,7 +92,7 @@
     };
   });
 
-  app.directive('glSpindle', ['$document', function($document) {
+  app.directive('glSpindle', ['spindle', '$document', '$compile', function(spindle, $document, $compile) {
 
     function link ($scope, element, attrs) {
 
@@ -126,19 +106,48 @@
 
       $document.on('keydown', onkeydown);
 
+      function loadSpindle() {
+        // TODO: Load the Spindle Here.
+        var albumsScrollTrackEl = element.find(".albums-scroll-track")
+
+
+        _.each(spindle.flippers, function(flipper) {
+
+          // Need to compile of get an directive instance... As per http://stackoverflow.com/a/16657166
+          var flipperEl = angular.element(document.createElement('li'))
+          //flipper[0].setAttribute('gl-flipper','')
+
+          flipperEl.attr('gl-flipper', '');
+
+          var flipperScope = $scope.$new()
+          flipperScope.flipper = flipper
+
+          var el = $compile(flipperEl)(flipperScope);
+
+          albumsScrollTrackEl.append(flipperEl);
+
+          console.log(flipper);
+        });
+      }
+
+      loadSpindle();
+
+      //spindle.bind('load', loadSpindle);
+
       // listen for arrow keys
       $scope.$on('spindle:flipLeft', function () {
-        flippers.push({});
-        flippers.shift();
+        //flippers.push({});
+        //flippers.shift();
       });
 
       $scope.$on('spindle:flipRight', function () {
-        flippers.unshift({});
-        flippers.pop();
+        //flippers.unshift({});
+        //flippers.pop();
       });
 
       element.on('$destroy', function() {
         $document.off('keydown', onkeydown);
+        //spindle.unbind('load', loadSpindle);
       });
 
     }
@@ -210,6 +219,47 @@
   });
 
   // Services //
+
+
+  app.factory("spindle", function ($rootScope) {
+
+    var spindle = {
+      flippers: [],
+
+      // Load spindle full of albums
+      load: function(albums) {
+        //this.flippers = {};
+
+        this.flippers = [
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ];
+
+
+        // Loading albums for testing.
+        this.flippers[5].sideTwo = albums[0];
+        this.flippers[6].sideOne = albums[1];
+
+        this.trigger('load');
+      }
+
+    }
+
+    _.extend(spindle, Backbone.Events);
+
+    return spindle;
+  });
+
 
   // Playback Service handles Playback
   app.factory("playback", ['$rootScope', function ($rootScope) {
@@ -290,5 +340,8 @@
     return playback;
   }]);
 
+  app.run(['spindle', function(spindle) {
+    spindle.load(albums);
+  }]);
 
 })();
