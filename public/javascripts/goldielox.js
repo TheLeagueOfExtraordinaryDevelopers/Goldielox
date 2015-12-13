@@ -106,7 +106,9 @@
         }
       }
 
-      $document.on('keydown', onkeydown);
+      var onkeydownTrottled = _.throttle(onkeydown, 250)
+
+      $document.on('keydown', onkeydownTrottled);
 
       function loadSpindle() {
         // TODO: Load the Spindle Here.
