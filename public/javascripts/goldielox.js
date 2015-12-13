@@ -320,6 +320,15 @@
       pause: function () {
         this.playing = false;
         audio.pause();
+      },
+
+      togglePlay: function () {
+        if (this.playing) {
+          this.pause();
+        } else {
+          this.play();
+        }
+
       }
 
     };
@@ -375,8 +384,19 @@
     return playback;
   }]);
 
-  app.run(['spindle', '$document', function(spindle, $document) {
+  app.run(['spindle', '$document', 'playback', '$rootScope',  function(spindle, $document, playback, $rootScope) {
     spindle.load(albums);
+
+    function onkeydown(e) {
+      if (e.keyCode == 32) { // space
+        playback.togglePlay();
+        $rootScope.$digest()
+      }
+    }
+
+    $document.on('keydown', onkeydown);
+
+
   }]);
 
 
