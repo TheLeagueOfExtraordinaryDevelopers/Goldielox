@@ -1,46 +1,46 @@
 (function () {
   var app = window.app = angular.module('goldielox', []);
 
-  // TODO: Read Albums, titles and paths from disk
+  //var albums = [
+    //{
+      //title: "When Christmas Comes",
+      //tracks: [
+        //{ title: "Tell Me the Story of Jesus" },
+        //{ title: "Silent Night" },
+        //{ title: "Angels We Have Heard On High" },
+        //{ title: "It's Beginning to Look a Lot Like Christmas" },
+        //{ title: "I'll Be Home for Christmas" },
+        //{ title: "The First Noel" },
+        //{ title: "Away in a Manger" },
+        //{ title: "Have Yourself a Merry Little Christmas" },
+        //{ title: "Let it Snow" },
+        //{ title: "O Come, O Come, Emmanuel" },
+        //{ title: "O Come All Ye Faithful" },
+        //{ title: "O Holy Night" },
+        //{ title: "Carol of the Bells" },
+        //{ title: "Winter Wonderland" },
+        //{ title: "Rudolph the Red-Nosed Reindeer" },
+        //{ title: "White Christmas" },
+        //{ title: "The Christmas Song" }
+      //],
+      //cover_path: "/library/When Christmas Comes/cover.png"
+    //},
+    //{
+      //title: "Gospel",
+      //tracks: [
+        //{ title: "Spirit Lead Me", path: "/media/music/Unknown Artist/Unknown Album/Spirit Lead Me.mp3" },
+        //{ title: "Kim Walker Smith - 10,000 Reasons (Bless The Lord)", path: "/media/music/Unknown Artist/Unknown Album/Kim Walker Smith - 10,000 Reasons (Bless The Lord).mp3" },
+        //{ title: "Psalm 91 Sons of Korah", path: "/media/music/Unknown Artist/Unknown Album/Psalm 91 Sons of Korah.mp3" },
+        //{ title: "You are Good", path: "/media/music/Unknown%20Artist/Unknown%20Album/YOU%20ARE%20GOOD%20Lakewood%20Church%20Worship%20Video%20w-lyrics.mp3" },
+        //{ title: "This is my Desire", path: "/media/music/Unknown%20Artist/Unknown%20Album/This%20is%20my%20desire%20-%20Michael%20W%20Smith.mp3" },
+        //{ title: "In Jesus Name", path: "/media/music/Unknown%20Artist/Unknown%20Album/In%20Jesus%20Name.mp3" }
+      //],
+      //cover_path: "/library/Spirit Lead Me/cover.jpg"
+    //}
 
-  var albums = [
-    {
-      title: "When Christmas Comes",
-      tracks: [
-        { title: "Tell Me the Story of Jesus" },
-        { title: "Silent Night" },
-        { title: "Angels We Have Heard On High" },
-        { title: "It's Beginning to Look a Lot Like Christmas" },
-        { title: "I'll Be Home for Christmas" },
-        { title: "The First Noel" },
-        { title: "Away in a Manger" },
-        { title: "Have Yourself a Merry Little Christmas" },
-        { title: "Let it Snow" },
-        { title: "O Come, O Come, Emmanuel" },
-        { title: "O Come All Ye Faithful" },
-        { title: "O Holy Night" },
-        { title: "Carol of the Bells" },
-        { title: "Winter Wonderland" },
-        { title: "Rudolph the Red-Nosed Reindeer" },
-        { title: "White Christmas" },
-        { title: "The Christmas Song" }
-      ],
-      cover_path: "/library/When Christmas Comes/cover.png"
-    },
-    {
-      title: "Gospel",
-      tracks: [
-        { title: "Spirit Lead Me", path: "/media/music/Unknown Artist/Unknown Album/Spirit Lead Me.mp3" },
-        { title: "Kim Walker Smith - 10,000 Reasons (Bless The Lord)", path: "/media/music/Unknown Artist/Unknown Album/Kim Walker Smith - 10,000 Reasons (Bless The Lord).mp3" },
-        { title: "Psalm 91 Sons of Korah", path: "/media/music/Unknown Artist/Unknown Album/Psalm 91 Sons of Korah.mp3" },
-        { title: "You are Good", path: "/media/music/Unknown%20Artist/Unknown%20Album/YOU%20ARE%20GOOD%20Lakewood%20Church%20Worship%20Video%20w-lyrics.mp3" },
-        { title: "This is my Desire", path: "/media/music/Unknown%20Artist/Unknown%20Album/This%20is%20my%20desire%20-%20Michael%20W%20Smith.mp3" },
-        { title: "In Jesus Name", path: "/media/music/Unknown%20Artist/Unknown%20Album/In%20Jesus%20Name.mp3" }
-      ],
-      cover_path: "/library/Spirit Lead Me/cover.jpg"
-    }
+  //];
 
-  ];
+  var albums = [];
 
   // Controllers //
 
@@ -294,6 +294,9 @@
         this.flippers[5].sideTwo = albums[0];
         this.flippers[6].sideOne = albums[1];
 
+        this.flippers[6].sideTwo = albums[2];
+        this.flippers[7].sideOne = albums[3];
+
         this.trigger('load');
       }
 
@@ -449,7 +452,11 @@
   }]);
 
   app.run(['spindle', '$document', 'playback', '$rootScope',  function(spindle, $document, playback, $rootScope) {
-    spindle.load(albums);
+
+    jQuery.getJSON('/albums.json', function(data) {
+      var albums = data;
+      spindle.load(albums);
+    });
 
     function onkeydown(e) {
       if (e.keyCode == 32) { // space
