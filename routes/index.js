@@ -130,8 +130,24 @@ router.get('/albums.json', function(req, res, next) {
           }
         });
           // Add path
-        album.tracks = tracks
-        album.cover_path = p + album.title + "/cover.png"
+        album.tracks = tracks;
+
+        var fileExists = function (file) {
+          try {
+            return fs.statSync(file).isFile();
+          } catch (err) {
+            return false;
+          }
+        }
+
+
+        if (fileExists(path.join(p, album.title, "/cover.png"))) {
+          album.cover_path = p + album.title + "/cover.png"
+        } else {
+          if (fileExists(path.join(p, album.title, "/cover.jpg"))) {
+            album.cover_path = p + album.title + "/cover.jpg"
+          }
+        }
 
         if (--i == 0) {
           res.send(albums);
