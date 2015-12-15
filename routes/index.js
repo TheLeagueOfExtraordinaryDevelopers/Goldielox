@@ -83,36 +83,10 @@ router.get('/albums.json', function(req, res, next) {
 
   p = "library/"
 
-  //var getTracks(file) {
-
-    //fs.readdir(p + file, function(err, files) {
-
-      //if (err) throw err;
-
-
-      //files = files
-        //.filter(function (file) {
-          //// Only directories
-          //return fs.statSync(path.join(p, file)).isDirectory();
-        //})
-        //.map(function (file) {
-          //{
-            //title: file,
-            //tracks: getTracks(file)
-          //}
-        //}
-
-      ////.forEach(function (file) {
-          ////console.log("%s (%s)", file, path.extname(file));
-      ////});
-
-      //res.send(files);
-    //});
-
-  //}
-
   fs.readdir(p, function(err, files) {
     if (err) throw err;
+
+    var albums;
 
 
     files = files
@@ -120,17 +94,56 @@ router.get('/albums.json', function(req, res, next) {
         // Only directories
         return fs.statSync(path.join(p, file)).isDirectory();
       })
-      .map(function (file) {
-        return {
-          title: file
+
+
+    albums = files.map(function (file) {
+      return { title: file }
+    });
+
+
+    var i = albums.length;
+    albums.forEach(function (album) {
+      fs.readdir(p + album.title, function (err, albumFiles) {
+        if (err) throw err;
+
+        tracks = albumFiles
+          .filter(function(file) {
+            if (fs.statSync(path.join(p, album.title, file)).isFile()) {
+              if (file.match(/.mp3$|.m4a$|.wav$/)) {
+                return true;
+              } else {
+                return false;
+              }
+            }
+
+            return false;
+
+
+            // Test for known file extensions
+          })
+
+        tracks = tracks.map(function(track) {
+          var title = track.substring(0, track.indexOf('.'))
+          return {
+            title: title,
+            path: p + album.title + "/" + track
+          }
+        });
+          // Add path
+        album.tracks = tracks
+        album.cover_path = p + album.title + "/cover.png"
+
+        if (--i == 0) {
+          res.send(albums);
         }
-      })
+      });
+    });
+
 
     //.forEach(function (file) {
         //console.log("%s (%s)", file, path.extname(file));
     //});
 
-    res.send(files);
   });
 
   //var playlist = jsave.load('playlist.json');
