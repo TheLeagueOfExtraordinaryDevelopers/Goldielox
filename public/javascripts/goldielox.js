@@ -1,6 +1,8 @@
 (function () {
   var app = window.app = angular.module('goldielox', []);
 
+  // TODO: Read Albums, titles and paths from disk
+
   var albums = [
     {
       title: "When Christmas Comes",

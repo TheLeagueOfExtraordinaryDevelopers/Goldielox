@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var jsave  = require('jsave');
+var fs = require('fs');
+var path = require('path');
 
 
 /* GET home page. */
@@ -73,6 +75,72 @@ router.put('/playlist.json', function(req, res, next) {
   //res.writeHead(200, {"Content-Type": "application/json"});
   //var json = JSON.stringify(playlist);
   //res.end(json);
+
+});
+
+
+router.get('/albums.json', function(req, res, next) {
+
+  p = "library/"
+
+  //var getTracks(file) {
+
+    //fs.readdir(p + file, function(err, files) {
+
+      //if (err) throw err;
+
+
+      //files = files
+        //.filter(function (file) {
+          //// Only directories
+          //return fs.statSync(path.join(p, file)).isDirectory();
+        //})
+        //.map(function (file) {
+          //{
+            //title: file,
+            //tracks: getTracks(file)
+          //}
+        //}
+
+      ////.forEach(function (file) {
+          ////console.log("%s (%s)", file, path.extname(file));
+      ////});
+
+      //res.send(files);
+    //});
+
+  //}
+
+  fs.readdir(p, function(err, files) {
+    if (err) throw err;
+
+
+    files = files
+      .filter(function (file) {
+        // Only directories
+        return fs.statSync(path.join(p, file)).isDirectory();
+      })
+      .map(function (file) {
+        return {
+          title: file
+        }
+      })
+
+    //.forEach(function (file) {
+        //console.log("%s (%s)", file, path.extname(file));
+    //});
+
+    res.send(files);
+  });
+
+  //var playlist = jsave.load('playlist.json');
+
+  //res.writeHead(200, {"Content-Type": "application/json"});
+  //var json = JSON.stringify(playlist);
+  //res.end(json);
+
+  //var playlist = jsave.load('playlist.json');
+  //res.send(playlist)
 
 });
 
