@@ -45,7 +45,7 @@
   // Controllers //
 
   app.controller('PlayPauseButtonController', ['$scope', 'playback', function($scope, playback) {
-    $scope.playback = playback
+    $scope.playback = playback;
 
     $scope.toggle = function (){
       if (playback.playing) {

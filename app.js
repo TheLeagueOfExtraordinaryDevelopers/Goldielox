@@ -1,3 +1,5 @@
+
+var config       = require('./config.js');
 var express      = require('express');
 var path         = require('path');
 var favicon      = require('serve-favicon');
@@ -14,6 +16,8 @@ var routes = require('./routes/index');
 var users  = require('./routes/users');
 
 var app = express();
+
+app.set('MUSIC_LIBRARY_HOME', config.MUSIC_LIBRARY_HOME);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,7 +40,7 @@ app.use(assets({
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/library', express.static(path.join(__dirname, 'library')));
+app.use('/library', express.static(config.MUSIC_LIBRARY_HOME));
 app.use('/media/music', express.static('/Users/blake/Music/iTunes/iTunes\ Media/Music'));
 
 app.use('/', routes);

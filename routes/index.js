@@ -81,18 +81,18 @@ router.put('/playlist.json', function(req, res, next) {
 
 router.get('/albums.json', function(req, res, next) {
 
-  p = "library/"
+  var library_path = '/library/',
+      home = req.app.get('MUSIC_LIBRARY_HOME');
 
-  fs.readdir(p, function(err, files) {
+  fs.readdir(home, function(err, files) {
     if (err) throw err;
 
     var albums;
 
-
     files = files
       .filter(function (file) {
         // Only directories
-        return fs.statSync(path.join(p, file)).isDirectory();
+        return fs.statSync(path.join(home, file)).isDirectory();
       })
 
 
@@ -103,12 +103,12 @@ router.get('/albums.json', function(req, res, next) {
 
     var i = albums.length;
     albums.forEach(function (album) {
-      fs.readdir(p + album.title, function (err, albumFiles) {
+      fs.readdir(home + album.title, function (err, albumFiles) {
         if (err) throw err;
 
         tracks = albumFiles
           .filter(function(file) {
-            if (fs.statSync(path.join(p, album.title, file)).isFile()) {
+            if (fs.statSync(path.join(home, album.title, file)).isFile()) {
               if (file.match(/.mp3$|.m4a$|.wav$/)) {
                 return true;
               } else {
@@ -126,7 +126,7 @@ router.get('/albums.json', function(req, res, next) {
           var title = track.substring(0, track.indexOf('.'))
           return {
             title: title,
-            path: p + album.title + "/" + track
+            path: library_path + album.title + "/" + track
           }
         });
           // Add path
@@ -141,11 +141,11 @@ router.get('/albums.json', function(req, res, next) {
         }
 
 
-        if (fileExists(path.join(p, album.title, "/cover.png"))) {
-          album.cover_path = p + album.title + "/cover.png"
+        if (fileExists(path.join(home, album.title, "/cover.png"))) {
+          album.cover_path = library_path + album.title + "/cover.png"
         } else {
-          if (fileExists(path.join(p, album.title, "/cover.jpg"))) {
-            album.cover_path = p + album.title + "/cover.jpg"
+          if (fileExists(path.join(home, album.title, "/cover.jpg"))) {
+            album.cover_path = library_path + album.title + "/cover.jpg"
           }
         }
 
