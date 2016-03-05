@@ -1,7 +1,11 @@
 /* = require_tree goldielox */
 
+body {
+}
+
 #interface-container {
-  border: 1px solid #ccc;
+  border: 1px solid #DCAF2F; /* Gold */
+  background-color: #FFFAF0;
   width: 980px;
   margin-top: 20px;
   margin: 40px auto;

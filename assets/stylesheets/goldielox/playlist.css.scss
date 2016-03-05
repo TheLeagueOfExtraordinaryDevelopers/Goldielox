@@ -1,7 +1,7 @@
 #playlist {
   width: 600px;
   height: 340px;
-  border: 1px solid #ddd;
+  border: 1px solid #DCAF2F;
   margin: 20px auto;
   border-radius: 4px;
   overflow-y: scroll;
@@ -12,14 +12,15 @@
     padding: 10px;
     margin-left: 0;
     height: 20px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #F1D279;
     font-family: sans-serif;
     font-weight: lighter;
     cursor: pointer;
+    color: #69500A;
 
 
     &.current {
-      border-left: 3px solid #ccc;
+      border-left: 3px solid #DCAF2F;
     }
 
     .close {

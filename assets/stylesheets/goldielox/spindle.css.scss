@@ -1,5 +1,11 @@
+#spindle {
+
+  background: #fefefa;
+  border-radius: 4px 4px 0 0;
+}
+
 .albums-viewport {
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #DCAF2F;
   width: 980px;
   height: 500px;
   overflow: hidden;
@@ -169,7 +175,6 @@
   transform-style: preserve-3d;
 }
 
-
 .album {
   width: 600px;
   height: 600px;
@@ -178,7 +183,7 @@
   display: inline-block;
 
   position: absolute;
-  border: 1px solid #bbb;
+  border: 1px solid #F1D279;
   border-radius: 4px;
   overflow: hidden;
   background-size: cover;

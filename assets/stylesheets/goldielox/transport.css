@@ -1,6 +1,7 @@
 #volume-slider {
   position: absolute;
   right: 0;
+  border-color: blue;
 }
 
 #transport {
@@ -24,8 +25,9 @@
 }
 
 #play-pause {
-  border: 1px solid #ddd;
+  border: 1px solid #F1D279;
   background: white;
+  color: #927216;
   width: 76px;
   height: 76px;
   border-radius: 38px;

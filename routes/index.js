@@ -19,15 +19,14 @@ router.get('/', function(req, res, next) {
   db.all("SELECT id, name, path FROM tracks", function(err, rows) {
     var tracks = rows;
 
-    res.render('index', { title: 'Goldielox', tracks: tracks });
+    res.render('interface', { title: 'Goldielox', tracks: tracks });
   })
 
 
   //res.render('index', { title: 'Express', db: db });
 });
 
-
-router.get('/v2', function(req, res, next) {
+router.get('/v0', function(req, res, next) {
 
   var app = req.app;
   var db  = app.get('db');
@@ -40,12 +39,14 @@ router.get('/v2', function(req, res, next) {
   db.all("SELECT id, name, path FROM tracks", function(err, rows) {
     var tracks = rows;
 
-    res.render('interface', { title: 'Goldielox', tracks: tracks });
+    res.render('index', { title: 'Goldielox', tracks: tracks });
   })
 
 
   //res.render('index', { title: 'Express', db: db });
 });
+
+
 
 
 

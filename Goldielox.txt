@@ -1,0 +1,28 @@
+Goldielox is a Golden Music Player
+
+Built for the web, and to allow sharing between neighbors.
+
+Find your friends, and share your music. You purchased it, you might as well be
+able to share it.
+
+Goldielox does this without breaking any laws, by allowing you to transfer the
+file to a friend, rather than making a copy.
+
+You have the ability to retain a backup, and set a time period in which the
+borrowed file should be returned.
+
+If many share their music in this way, there will be much for everyone.
+
+Goldielox doesn't rob Artist, as someone has to purchase the tracks and albums
+for them to be shared in good faith. We encourage the honor system, with each
+person being responsible for their own library, and what they share. In the
+future, we hope that artists will be supported directly, and their music shared
+openly. Music shouldn't be sold, nor should it be silenced.
+
+The more copies which are owned, the richer the network. And since lenders are
+simply lending their copies, their is no risk of loss.
+
+I hope you find Goldielox an inspiring project, and perhaps even wish to
+contribute in some way.
+
+May it bring you hours of listening bliss!
