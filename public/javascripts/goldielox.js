@@ -462,6 +462,7 @@
       if (e.keyCode == 32) { // space
         playback.togglePlay();
         $rootScope.$digest()
+        e.preventDefault();
       }
     }
 
