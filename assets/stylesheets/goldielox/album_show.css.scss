@@ -1,0 +1,87 @@
+.album-show {
+  margin: 20px auto;
+  width: 777px;
+
+  img {
+    border-radius: 4px;
+    margin: 27px auto;
+    width: 100%;
+    display: block;
+  }
+
+  h2 {
+    font-family: sans-serif;
+    font-weight: 100;
+    color: #927216;
+    margin: 10px 0;
+  }
+
+  #track-list {
+    border: 1px solid #DCAF2F;
+    border-radius: 4px;
+    padding-left: 0;
+    list-style: none;
+    background-color: #FFFAF0;
+
+
+    li {
+      padding: 10px 7px 7px 60px;
+      margin-left: 0;
+      height: 20px;
+      border-bottom: 1px solid #F1D279;
+      font-family: sans-serif;
+      font-weight: lighter;
+      cursor: pointer;
+      color: #69500A;
+      position: relative;
+
+      &.current {
+        border-left: 3px solid #DCAF2F;
+      }
+
+      .close {
+        float: right;
+        color: #ccc;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      a {
+        text-decoration: none;
+        color: #927216;
+      }
+
+      .play-button {
+        z-index: 2;
+        border: 1px solid #DCAF2F;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        left: 20px;
+        top: 8px;
+        border-radius: 20px;
+
+      }
+
+      &.playing {
+        .play-button {
+          background-color: #F1D279;
+        }
+      }
+
+      &:hover {
+        .close {
+          color: #ccc;
+          &:hover {
+            color: #aaa;
+          }
+        }
+      }
+    }
+
+  }
+
+
+}

@@ -1,0 +1,17 @@
+
+html
+  head
+    != css("goldielox")
+    script(src="/javascripts/jquery.js")
+    script(src="/javascripts/album_show.js")
+
+.album-show
+  img(src=album.cover_path)
+
+  h2= album.title
+
+  ul#track-list
+    each track, index in tracks
+      li
+        .play-button
+        a(href=track.path onclick='return play(this)' index=index+1)= track.title

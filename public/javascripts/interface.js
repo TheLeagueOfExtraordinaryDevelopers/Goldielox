@@ -64,7 +64,6 @@ progressSliderEl.onchange = function () {
   audio.currentTime = this.value
 }
 
-
 progressSliderEl.oninput = function () {
   var value = this.value
 
