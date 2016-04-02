@@ -8,15 +8,31 @@ var bodyParser   = require('body-parser');
 var sqlite3      = require('sqlite3').verbose();
 var assets       = require('connect-assets');
 var jsave        = require('jsave');
+const fs         = require('fs');
 
 var db = new sqlite3.Database('goldielox.db');
 
-var routes = require('./routes/index');
-var users  = require('./routes/users');
+var routes     = require('./routes/index');
+var users      = require('./routes/users');
+var loadRoutes = require('./routes/load');
 
 var app = express();
 
 app.set('MUSIC_LIBRARY_HOME', config.MUSIC_LIBRARY_HOME);
+
+var dexdir = path.join(__dirname, 'dex')
+app.set('DEXDIR', dexdir);
+
+if(!fs.existsSync(dexdir))
+  fs.mkdir(dexdir);
+
+// Clear out dexdir on start
+fs.readdir(dexdir, function(err, dex) {
+  dex.map(function(deck) {
+    fs.unlink(path.join(dexdir, deck));
+  });
+});
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -39,11 +55,13 @@ app.use(assets({
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/dex', express.static(dexdir));
 app.use('/library', express.static(config.MUSIC_LIBRARY_HOME));
-app.use('/media/music', express.static('/Users/blake/Music/iTunes/iTunes\ Media/Music'));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/', loadRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

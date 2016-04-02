@@ -1,4 +1,3 @@
-
 html
   head
     != css("goldielox")
@@ -14,4 +13,9 @@ html
     each track, index in tracks
       li
         .play-button
+          div
+          div
+          div
+          div
+          div
         a(href=track.path onclick='return play(this)' index=index+1)= track.title

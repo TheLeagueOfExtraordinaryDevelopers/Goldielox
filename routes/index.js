@@ -231,7 +231,6 @@ router.get('/albums.json', function(req, res, next) {
 
 });
 
-
 // Temporary function to load playlist.
 //router.get('/load-playlist', function(req, res, next) {
 
