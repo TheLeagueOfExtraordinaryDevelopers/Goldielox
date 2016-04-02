@@ -57,7 +57,6 @@ app.use(assets({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/dex', express.static(dexdir));
-app.use('/library', express.static(config.MUSIC_LIBRARY_HOME));
 
 app.use('/', routes);
 app.use('/users', users);

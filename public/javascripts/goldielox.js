@@ -1,6 +1,9 @@
 (function () {
   var app = window.app = angular.module('goldielox', []);
 
+  var user = prompt("Who are you?");
+  var deck = user + '-decka.mp3'
+
   //var albums = [
     //{
       //title: "When Christmas Comes",
@@ -118,8 +121,10 @@
       function onkeydown(e) {
         if (e.keyCode == 37) { // left arrow
           $scope.$emit('spindle:flipLeft');
+          return false;
         } else if (e.keyCode == 39) { // right arrow
           $scope.$emit('spindle:flipRight');
+          return false;
         }
       }
 
@@ -264,7 +269,6 @@
 
   // Services //
 
-
   app.factory("spindle", function ($rootScope) {
 
     var spindle = {
@@ -329,8 +333,20 @@
         var index = this.tracks.indexOf(track);
         this.currentTrack = track;
 
-        playback.load(track.path)
-        playback.play()
+        // Load track into deck
+        var trackPath = track.path.replace(/.*library(.*)/, "$1");
+
+        $.ajax('/load', {
+          data: {
+            track: trackPath,
+            deck: deck
+          },
+          success: function() {
+            playback.load('/dex/' + deck)
+            playback.play()
+          }
+        });
+
       },
 
       playNextSong: function() {
