@@ -73,6 +73,15 @@ router.get('/unload', function(req, res) {
   res.send('Like eject')
 })
 
+router.get('/cover/:album.jpg', function(req, res) {
+  var home = req.app.get('MUSIC_LIBRARY_HOME')
+
+  var coverPath = path.join(home, req.params.album, 'cover.jpg')
+  if(fs.existsSync(coverPath))
+    res.sendFile(coverPath);
+  else
+    res.end();
+});
 
 module.exports = router;
 

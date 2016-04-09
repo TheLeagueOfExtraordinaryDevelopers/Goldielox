@@ -3,10 +3,13 @@ var router  = express.Router();
 var jsave   = require('jsave');
 var fs      = require('fs');
 var path    = require('path');
+var ip      = require('ip');
 
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  // Is request private?
+  var isPrivate = ip.isPrivate(req.ip)
 
   var app = req.app;
   var db  = app.get('db');

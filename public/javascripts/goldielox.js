@@ -1,8 +1,32 @@
+function getCookie ( cookie_name ) {
+  // http://www.thesitewizard.com/javascripts/cookies.shtml
+  var cookie_string = document.cookie ;
+  if (cookie_string.length != 0) {
+    var cookie_value = cookie_string.match ( '(^|;)[\s]*' +
+    cookie_name + '=([^;]*)' );
+    if(cookie_value === null) {
+      return null;
+    }
+    return decodeURIComponent ( cookie_value[2] ) ;
+  }
+  return '';
+}
+
+function setCookie (cookie_name, cookie_value) {
+  // http://www.thesitewizard.com/javascripts/cookies.shtml
+  document.cookie = cookie_name + "=" + encodeURIComponent(cookie_value)
+}
+
+var favColor = getCookie('favColor');
+if (!favColor) {
+  favColor = prompt('What is your favorite color?');
+  setCookie('favColor', favColor, 777);
+}
+
 (function () {
   var app = window.app = angular.module('goldielox', []);
 
-  var user = prompt("Who are you?");
-  var deck = user + '-decka.mp3'
+  var deck =  favColor + '-decka.mp3'
 
   //var albums = [
     //{
