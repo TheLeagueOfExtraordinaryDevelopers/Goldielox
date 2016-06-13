@@ -167,7 +167,7 @@ router.get('/albums.json', function(req, res, next) {
         tracks = albumFiles
           .filter(function(file) {
             if (fs.statSync(path.join(home, album.title, file)).isFile()) {
-              if (file.match(/.mp3$|.m4a$|.wav$/)) {
+              if (file.match(/.mp3$|.m4a$|.wav|.youtube$/)) {
                 return true;
               } else {
                 return false;
@@ -182,9 +182,16 @@ router.get('/albums.json', function(req, res, next) {
 
         tracks = tracks.map(function(track) {
           var title = track.substring(0, track.indexOf('.'))
+
+          var youtubeID = track.match(/\.([\w-]+)\.youtube$/)
+          if (youtubeID) {
+            youtubeID = youtubeID[1];
+          }
+
           return {
             title: title,
-            path: library_path + album.title + "/" + track
+            path: library_path + album.title + "/" + track,
+            youtubeID: youtubeID
           }
         });
           // Add path

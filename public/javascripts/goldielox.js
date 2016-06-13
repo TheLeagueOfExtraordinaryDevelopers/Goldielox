@@ -359,7 +359,7 @@
         var index = this.tracks.indexOf(track);
         this.currentTrack = track;
 
-        playback.load(track.path)
+        playback.load(track);
         playback.play()
       },
 
@@ -369,13 +369,13 @@
         this.currentTrack = this.tracks[index+1];
 
         if (this.currentTrack) {
-          playback.load(this.currentTrack.path)
+          playback.load(this.currentTrack)
           playback.play()
         } else {
           if (this.loop) { // Start back at beginning if looping
             this.currentTrack = this.tracks[0];
 
-            playback.load(this.currentTrack.path)
+            playback.load(this.currentTrack)
             playback.play()
           }
         }
@@ -395,22 +395,96 @@
       playing: false,
       duration: 0,
       currentTime: 0,
+      playingFromYoutube: false,
+      youtubeVideoLoaded: false,
 
-      load: function (path) {
-        audio.src = path;
+
+      load: function (track) {
+        if (track.youtubeID != null) {
+          this.playingFromYoutube = true
+          this.youtubeVideoLoaded = false
+          audio.src = null;
+
+          if(youtubePlayer) {
+            youtubePlayer.stopVideo()
+            youtubePlayer.loadVideoById(track.youtubeID);
+          } else {
+            youtubePlayer = new YT.Player('youtubePlayer', {
+              events: {
+                'onReady': function(event){
+                  youtubePlayer.loadVideoById(track.youtubeID);
+                },
+                'onStateChange': function(event) {
+
+                  if(event.data == -1) { // Unstarted
+
+                    playback.youtubeVideoLoaded = true
+
+                    $rootScope.$digest();
+
+                    playback.playing = true;
+                    event.target.playVideo();
+                  }
+
+                  if(event.data == YT.PlayerState.ENDED) { // Ended
+                    playback.trigger('ended'); // relay
+                  }
+
+                  if(event.data == 1) {
+                    var duration = parseInt(youtubePlayer.getDuration());
+                    playback.duration = duration;
+
+                    var minutes = parseInt(duration / 60)
+                    var seconds = duration - minutes * 60
+
+                    if (seconds < 10) // Add leading zero
+                      seconds = "0" + seconds
+
+                    playback.fmtDuration = minutes + ":" + seconds;
+                    $rootScope.$digest();
+
+                  }
+
+
+                }
+              }
+            });
+          }
+
+        } else {
+          if(youtubePlayer) { youtubePlayer.pauseVideo() }
+          this.playingFromYoutube = false
+
+          audio.src = track.path;
+        }
 
         // Update duration
         //this.duration = parseInt(audio.duration);
       },
 
       play: function () {
-        this.playing = true;
-        audio.play();
+        if (this.playingFromYoutube) {
+          if (this.youtubeVideoLoaded) {
+            this.playing = true;
+            youtubePlayer.playVideo();
+          }
+        } else {
+          this.playing = true;
+          audio.play();
+        }
      },
 
       pause: function () {
-        this.playing = false;
-        audio.pause();
+        if (this.playingFromYoutube) {
+          if (this.youtubeVideoLoaded) {
+            this.playing = false;
+            youtubePlayer.pauseVideo();
+          }
+        } else {
+          this.playing = false;
+          audio.pause();
+        }
+
       },
 
       togglePlay: function () {
@@ -437,7 +511,11 @@
     });
 
     playback.__defineGetter__('currentTime', function() {
-      return audio.currentTime;
+      if(this.playingFromYoutube) {
+        return youtubePlayer.getCurrentTime()
+      } else {
+        return audio.currentTime;
+      }
     });
 
     audio.addEventListener('loadedmetadata', function () {
@@ -501,5 +579,42 @@
 
   }]);
 
+
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  var youtubePlayer;
+  //function onYouTubeIframeAPIReady() {
+    //youtubePlayer = new YT.Player('youtubePlayer', {
+      //height: '390',
+      //width: '640',
+      //videoId: 'M7lc1UVf-VE',
+      //events: {
+        //'onReady': onPlayerReady,
+        //'onStateChange': onPlayerStateChange
+      //}
+    //});
+  //}
+
+   // 4. The API will call this function when the video player is ready.
+   function onPlayerReady(event) {
+     event.target.playVideo();
+   }
+
+   // 5. The API calls this function when the player's state changes.
+   //    The function indicates that when playing a video (state=1),
+   //    the player should play for six seconds and then stop.
+   //var done = false;
+   //function onPlayerStateChange(event) {
+     //if (event.data == YT.PlayerState.PLAYING && !done) {
+       //setTimeout(stopVideo, 6000);
+       //done = true;
+     //}
+   //}
+   function stopVideo() {
+     youtubePlayer.stopVideo();
+   }
 
 })();
