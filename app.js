@@ -34,6 +34,7 @@ app.use(cookieParser());
 
 app.use(assets({
   paths: [
+		'assets/javascripts',
     'assets/stylesheets'
   ]
 }));
