@@ -416,8 +416,21 @@
 
     };
 
+
+    youtubePlayback.__defineGetter__('volume', function() {
+      return youtubePlayer.getVolume()/100;
+    });
+
+    youtubePlayback.__defineSetter__('volume', function(value) {
+      return youtubePlayer.setVolume(value*100);
+    });
+
     youtubePlayback.__defineGetter__('currentTime', function() {
       return youtubePlayer.getCurrentTime();
+    });
+
+    youtubePlayback.__defineSetter__('currentTime', function(value) {
+      return youtubePlayer.seekTo(value);
     });
 
 
@@ -443,12 +456,18 @@
       load: function (track) {
         if (track.youtubeID) {
           this.pause()
+
+          youtubePlayback.volume = audio.volume
           this.activePlayer = 'youtube'
+
           youtubePlayback.load(track)
 
         } else {
           youtubePlayback.pause()
+
+          audio.volume = youtubePlayback.volume
           this.activePlayer = 'audio'
+
 
           audio.src = track.path;
         }
@@ -553,6 +572,10 @@
       playback.duration    = youtubePlayback.duration;
       playback.fmtDuration = youtubePlayback.fmtDuration;
       $rootScope.$digest();
+    });
+
+    youtubePlayback.bind('ended', function (e) {
+      playback.trigger('ended'); // relay
     });
 
     audio.addEventListener('ended', function () {
