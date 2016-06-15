@@ -1,45 +1,6 @@
 (function () {
   var app = window.app = angular.module('goldielox', []);
 
-  //var albums = [
-    //{
-      //title: "When Christmas Comes",
-      //tracks: [
-        //{ title: "Tell Me the Story of Jesus" },
-        //{ title: "Silent Night" },
-        //{ title: "Angels We Have Heard On High" },
-        //{ title: "It's Beginning to Look a Lot Like Christmas" },
-        //{ title: "I'll Be Home for Christmas" },
-        //{ title: "The First Noel" },
-        //{ title: "Away in a Manger" },
-        //{ title: "Have Yourself a Merry Little Christmas" },
-        //{ title: "Let it Snow" },
-        //{ title: "O Come, O Come, Emmanuel" },
-        //{ title: "O Come All Ye Faithful" },
-        //{ title: "O Holy Night" },
-        //{ title: "Carol of the Bells" },
-        //{ title: "Winter Wonderland" },
-        //{ title: "Rudolph the Red-Nosed Reindeer" },
-        //{ title: "White Christmas" },
-        //{ title: "The Christmas Song" }
-      //],
-      //cover_path: "/library/When Christmas Comes/cover.png"
-    //},
-    //{
-      //title: "Gospel",
-      //tracks: [
-        //{ title: "Spirit Lead Me", path: "/media/music/Unknown Artist/Unknown Album/Spirit Lead Me.mp3" },
-        //{ title: "Kim Walker Smith - 10,000 Reasons (Bless The Lord)", path: "/media/music/Unknown Artist/Unknown Album/Kim Walker Smith - 10,000 Reasons (Bless The Lord).mp3" },
-        //{ title: "Psalm 91 Sons of Korah", path: "/media/music/Unknown Artist/Unknown Album/Psalm 91 Sons of Korah.mp3" },
-        //{ title: "You are Good", path: "/media/music/Unknown%20Artist/Unknown%20Album/YOU%20ARE%20GOOD%20Lakewood%20Church%20Worship%20Video%20w-lyrics.mp3" },
-        //{ title: "This is my Desire", path: "/media/music/Unknown%20Artist/Unknown%20Album/This%20is%20my%20desire%20-%20Michael%20W%20Smith.mp3" },
-        //{ title: "In Jesus Name", path: "/media/music/Unknown%20Artist/Unknown%20Album/In%20Jesus%20Name.mp3" }
-      //],
-      //cover_path: "/library/Spirit Lead Me/cover.jpg"
-    //}
-
-  //];
-
   var albums = [];
 
   // Controllers //
@@ -387,73 +348,107 @@
   }]);
 
 
+  app.factory("youtubePlayback", ['$rootScope', function ($rootScope) {
+
+    var youtubePlayer;
+
+    YT.ready(function() {
+      youtubePlayer = new YT.Player('youtube-player', {
+        events: {
+          onReady: function (e) {
+            youtubePlayback.playerReady = true
+            youtubePlayback.trigger('playerReady', e)
+          },
+          onStateChange: onStateChange
+        }
+      });
+    });
+
+
+    function onStateChange (e) {
+
+      if(e.data == -1) { // Unstarted
+        youtubePlayback.trackLoaded = true
+        youtubePlayback.play()
+        $rootScope.$digest();
+      }
+
+      if(e.data == 1) { // Started
+        var duration = parseInt(youtubePlayer.getDuration());
+        youtubePlayback.duration = duration;
+
+        var minutes = parseInt(duration / 60)
+        var seconds = duration - minutes * 60
+
+        if (seconds < 10) // Add leading zero
+          seconds = "0" + seconds
+
+        youtubePlayback.fmtDuration = minutes + ":" + seconds;
+
+        youtubePlayback.trigger('started')
+      }
+
+      if(e.data == YT.PlayerState.ENDED) { // Ended
+        youtubePlayback.trigger('ended'); // relay
+      }
+
+    }
+
+
+    var youtubePlayback = {
+      playerReady: false, // Is the Youtube Player Ready for Calls
+      trackLoaded: false,
+
+      load: function (track) {
+        this.trackLoaded = false;
+        youtubePlayer.loadVideoById(track.youtubeID);
+      },
+
+      play: function () {
+        this.playing = true;
+        youtubePlayer.playVideo();
+      },
+
+      pause: function () {
+        this.playing = false;
+        youtubePlayer.pauseVideo();
+      }
+
+    };
+
+    youtubePlayback.__defineGetter__('currentTime', function() {
+      return youtubePlayer.getCurrentTime();
+    });
+
+
+    _.extend(youtubePlayback, Backbone.Events);
+
+
+    return youtubePlayback;
+
+  }]);
+
+
   // Playback Service handles Playback
-  app.factory("playback", ['$rootScope', function ($rootScope) {
+  app.factory("playback", ['$rootScope', 'youtubePlayback', function ($rootScope, youtubePlayback) {
     var audio = document.createElement('audio');
 
     var playback = {
       playing: false,
       duration: 0,
       currentTime: 0,
-      playingFromYoutube: false,
-      youtubeVideoLoaded: false,
+      activePlayer: 'audio',
 
 
       load: function (track) {
-        if (track.youtubeID != null) {
-          this.playingFromYoutube = true
-          this.youtubeVideoLoaded = false
-          audio.src = null;
-
-          if(youtubePlayer) {
-            youtubePlayer.stopVideo()
-            youtubePlayer.loadVideoById(track.youtubeID);
-          } else {
-            youtubePlayer = new YT.Player('youtubePlayer', {
-              events: {
-                'onReady': function(event){
-                  youtubePlayer.loadVideoById(track.youtubeID);
-                },
-                'onStateChange': function(event) {
-
-                  if(event.data == -1) { // Unstarted
-
-                    playback.youtubeVideoLoaded = true
-
-                    $rootScope.$digest();
-
-                    playback.playing = true;
-                    event.target.playVideo();
-                  }
-
-                  if(event.data == YT.PlayerState.ENDED) { // Ended
-                    playback.trigger('ended'); // relay
-                  }
-
-                  if(event.data == 1) {
-                    var duration = parseInt(youtubePlayer.getDuration());
-                    playback.duration = duration;
-
-                    var minutes = parseInt(duration / 60)
-                    var seconds = duration - minutes * 60
-
-                    if (seconds < 10) // Add leading zero
-                      seconds = "0" + seconds
-
-                    playback.fmtDuration = minutes + ":" + seconds;
-                    $rootScope.$digest();
-
-                  }
-
-
-                }
-              }
-            });
-          }
+        if (track.youtubeID) {
+          this.pause()
+          this.activePlayer = 'youtube'
+          youtubePlayback.load(track)
 
         } else {
-          if(youtubePlayer) { youtubePlayer.pauseVideo() }
-          this.playingFromYoutube = false
+          youtubePlayback.pause()
+          this.activePlayer = 'audio'
 
           audio.src = track.path;
         }
@@ -463,26 +458,26 @@
       },
 
       play: function () {
-        if (this.playingFromYoutube) {
-          if (this.youtubeVideoLoaded) {
+        switch (this.activePlayer) {
+          case 'youtube':
             this.playing = true;
-            youtubePlayer.playVideo();
-          }
-        } else {
-          this.playing = true;
-          audio.play();
+            youtubePlayback.play()
+            break;
+          case 'audio':
+            this.playing = true;
+            audio.play();
         }
-     },
+      },
 
       pause: function () {
-        if (this.playingFromYoutube) {
-          if (this.youtubeVideoLoaded) {
+        switch (this.activePlayer) {
+          case 'youtube':
             this.playing = false;
-            youtubePlayer.pauseVideo();
-          }
-        } else {
-          this.playing = false;
-          audio.pause();
+            youtubePlayback.pause()
+            break;
+          case 'audio':
+            this.playing = false;
+            audio.pause();
         }
 
       },
@@ -499,22 +494,42 @@
     };
 
     playback.__defineSetter__('volume', function(value) {
-      audio.volume = value;
+      switch(this.activePlayer) {
+        case 'youtube':
+          youtubePlayback.volume = value
+          break;
+        case 'audio':
+          audio.volume = value;
+          break;
+      }
     });
 
     playback.__defineSetter__('currentTime', function(value) {
-      audio.currentTime = value;
+      switch(this.activePlayer) {
+        case 'youtube':
+          youtubePlayback.currentTime = value
+          break;
+        case 'audio':
+          audio.currentTime = value;
+          break;
+      }
     });
 
     playback.__defineGetter__('volume', function() {
-      return audio.volume;
+      switch(this.activePlayer) {
+        case 'youtube':
+          return youtubePlayback.volume;
+        case 'audio':
+          return audio.volume;
+      }
     });
 
     playback.__defineGetter__('currentTime', function() {
-      if(this.playingFromYoutube) {
-        return youtubePlayer.getCurrentTime()
-      } else {
-        return audio.currentTime;
+      switch(this.activePlayer) {
+        case 'youtube':
+          return youtubePlayback.currentTime;
+        case 'audio':
+          return audio.currentTime;
       }
     });
 
@@ -531,6 +546,12 @@
 
       playback.fmtDuration = minutes + ":" + seconds;
 
+      $rootScope.$digest();
+    });
+
+    youtubePlayback.bind('started', function (e) {
+      playback.duration    = youtubePlayback.duration;
+      playback.fmtDuration = youtubePlayback.fmtDuration;
       $rootScope.$digest();
     });
 
@@ -576,45 +597,6 @@
 
     $document.on('keydown', onkeydown);
 
-
   }]);
-
-
-  var tag = document.createElement('script');
-  tag.src = "https://www.youtube.com/iframe_api";
-  var firstScriptTag = document.getElementsByTagName('script')[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-  var youtubePlayer;
-  //function onYouTubeIframeAPIReady() {
-    //youtubePlayer = new YT.Player('youtubePlayer', {
-      //height: '390',
-      //width: '640',
-      //videoId: 'M7lc1UVf-VE',
-      //events: {
-        //'onReady': onPlayerReady,
-        //'onStateChange': onPlayerStateChange
-      //}
-    //});
-  //}
-
-   // 4. The API will call this function when the video player is ready.
-   function onPlayerReady(event) {
-     event.target.playVideo();
-   }
-
-   // 5. The API calls this function when the player's state changes.
-   //    The function indicates that when playing a video (state=1),
-   //    the player should play for six seconds and then stop.
-   //var done = false;
-   //function onPlayerStateChange(event) {
-     //if (event.data == YT.PlayerState.PLAYING && !done) {
-       //setTimeout(stopVideo, 6000);
-       //done = true;
-     //}
-   //}
-   function stopVideo() {
-     youtubePlayer.stopVideo();
-   }
 
 })();
